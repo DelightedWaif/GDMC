@@ -29,7 +29,7 @@ class BasicBuilding():
         for x in range(box.minx, box.maxx):
             for z in range(box.minz, box.maxz):
                 utilityFunctions.setBlock(
-                    level, details['block'], x, box.miny+details['height'], z)
+                    level, details['block'], x, box.miny + details['height'], z)
 
     def construct_floor(self, level, box):
         # This is where we build a floor
