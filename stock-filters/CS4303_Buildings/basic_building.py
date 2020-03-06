@@ -1,8 +1,9 @@
 from pymclevel import alphaMaterials, MCSchematic, MCLevel, BoundingBox
 import utilityFunctions
 
+
 class BasicBuilding():
-    def __init__(self, level, box, block_id=98, block_type=0, height=10):
+    def __init__(self, level, box, block_id=98, block_type=0, height=5):
         details = {'height': height, 'block': (block_id, block_type)}
         self.construct_walls(level, box, details)
         self.construct_roof(level, box, details)
@@ -20,9 +21,15 @@ class BasicBuilding():
                         else:
                             utilityFunctions.setBlock(
                                 level, details['block'], x, y, z)
+                    # Check if building is empty
                     elif level.blockAt(x, y, z) != 0:
                         utilityFunctions.setBlock(
                             level, (0, 0), x, y, z)
+                    # add door
+                    elif x == box.minx and z == round(box.maxz / 2) and y == box.miny:
+                        print("doing door")
+                        utilityFunctions.setBlock(
+                            level, (64, 0), x, y, z)
 
     def construct_roof(self, level, box, details):
         # build roof

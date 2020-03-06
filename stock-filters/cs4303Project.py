@@ -3,7 +3,7 @@ import utilityFunctions
 from CS4303_Buildings.basic_building import BasicBuilding
 
 inputs = (
-    ('cs4303', 'label'),
+    ('Hello world cs4303', 'label'),
     ('Material1', alphaMaterials.StoneBricks),
     ('Creator: ChirpNets', 'label'),
 )
