@@ -1,20 +1,23 @@
 from pymclevel import alphaMaterials, MCSchematic, MCLevel, BoundingBox
 import utilityFunctions
-from CS4303_Buildings.basic_building import BasicBuilding
+
+from ChirpVillage import BuildPlaneFinder
+
 import os
+
 inputs = (
-    ('Hello world cs4303', 'label'),
+    ('Build Chirp Village', 'label'),
     ('Material1', alphaMaterials.StoneBricks),
-    ('Creator: ChirpNets', 'label'),
+    ('Creator: Chirp Nets', 'label'),
 )
-default_path = '/stock-filters/CS4303_Buildings/'
+default_path = '/stock-filters/ChirpVillage/Buildings/'
 files = [
     'ghast.schematic',
 ]
 
 
 def perform(level, box, options):
-    filename = os.getcwd() + 'ghast.schematic'
+    filename = os.getcwd() + default_path + 'ghast.schematic'
     build_from_schematic(x=box.minx, y=box.miny, z=box.minz,
                          filename=filename, level=level, box=box, options=options)
     # BasicBuilding(level, box)
