@@ -18,11 +18,15 @@ class Building(object):
                     # Skip columns since they should always be walls
                     if (x == box.minx and z == box.minz) or (x == box.maxx-1 and z == box.minz) or (x == box.minx and z == box.maxz-1) or (x == box.maxx-1 and z == box.maxz-1):
                         continue
+                    # This follows the CA described in the documentation
                     for y in range(box.miny, pillar_height):
+                        # Check if it is a wall
                         if x == box.maxx-1 or z == box.maxz-1 or x == box.minx or z == box.minz:
+                            # if the block is air we want it to be a wall
                             if level.blockAt(x, y, z) == 0:
                                 utilityFunctions.setBlock(
                                     level, (1, 0), x, y, z)
+                            # if the block above and below are both walls, then this block has an 80% chance to be a wall
                             elif level.blockAt(x, y - 1, z) == 1 and level.blockAt(x, y + 1, z) == 1:
                                 if random.uniform(0, 1) < 0.8:
                                     utilityFunctions.setBlock(
@@ -30,6 +34,7 @@ class Building(object):
                                 else:
                                     utilityFunctions.setBlock(
                                         level, (102, 0), x, y, z)
+                            # if the block above and below are both windows, then this block has a 90% chance to be a wall
                             elif level.blockAt(x, y - 1, z) == 102 and level.blockAt(x, y + 1, z) == 102:
                                 if random.uniform(0, 1) < 0.9:
                                     utilityFunctions.setBlock(
@@ -37,6 +42,7 @@ class Building(object):
                                 else:
                                     utilityFunctions.setBlock(
                                         level, (102, 0), x, y, z)
+                            # if only one of the blocks above and below is a wall, then this block has a 50% chance to be a wall
                             elif level.blockAt(x, y-1, z) == 1 and level.blockAt(x, y+1, z) != 1 or level.blockAt(x, y-1, z) != 1 and level.blockAt(x, y+1, z) == 1:
                                 if random.uniform(0, 1) < 0.5:
                                     utilityFunctions.setBlock(
