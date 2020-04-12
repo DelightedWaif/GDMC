@@ -1,8 +1,8 @@
 from pymclevel import alphaMaterials, MCSchematic, MCLevel, BoundingBox
+from BasicBuilding import BasicBuilding 
+from Surface import Surface
 import utilityFunctions
-
-from ChirpVillage import BuildPlaneFinder
-
+import BlockUtils
 import os
 
 inputs = (
@@ -17,10 +17,12 @@ files = [
 
 
 def perform(level, box, options):
-    filename = os.getcwd() + default_path + 'ghast.schematic'
-    build_from_schematic(x=box.minx, y=box.miny, z=box.minz,
-                         filename=filename, level=level, box=box, options=options)
-    # BasicBuilding(level, box)
+    surface = Surface(box.minx, box.minz, box.maxx, box.maxz)
+	# calculateHeightMapAdv(level, surface)
+	# calculateSteepnessMap(surface)
+	# calculateWaterPlacement(level, surface)
+    BlockUtils.calculateBiomeMap(level, surface)
+    BasicBuilding(level, box, surface)
 
 
 def construct_building(level, box, type):
