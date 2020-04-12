@@ -7,9 +7,9 @@ class Block(object):
     DOOR = 3
     PATH = 4
 
-    def __init__(self, x, z, height):
+    def __init__(self, x, z, height, type):
         self.x = x
-        self.y = z
+        self.z = z
         self.height = height
-        self.type = 0
-        self.biome_id = -1 #undefined by default, set in calculateBiomeMap of BlockUtils
+        self.type = type
+        self.biome_id = -1  # undefined by default, set in calculateBiomeMap of BlockUtils
