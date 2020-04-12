@@ -1,13 +1,12 @@
 from BiomeSettings import biomeSettings
-from pymclevel.biome_types import biome_types
+from BiomeMapping import biome_map
 
 # gets the name of the biome, if the biome is not supported, returns 'Plains' biome
 def get_biome_name(biome):
-    biomeName = biome_types[biome]
-    if biomeName in biomeSettings:
-        return biomeName
-    else:
-        return 'Plains'
+    for key, value in biome_map.items():
+		if biome in value:
+			return key
+    return 'Plains'
 
 # getters for various biome specific blocks
 def get_wall_block(biome=1):
