@@ -12,19 +12,19 @@ def get_biome_name(biome):
 # getters for various biome specific blocks
 def get_wall_block(biome=1):
     biomeName = get_biome_name(biome)
-    return biomeSettings[biomeName]['wall_material'];
+    return biomeSettings[biomeName]['wall'];
 
 def get_floor_block(biome=1):
     biomeName = get_biome_name(biome)
-    return biomeSettings[biomeName]['floor_material'];
+    return biomeSettings[biomeName]['floor'];
 
 def get_fence_block(biome=1):
     biomeName = get_biome_name(biome)
-    return biomeSettings[biomeName]['fence_material'];
+    return biomeSettings[biomeName]['fence'];
 
 def get_road_block(biome=1):
     biomeName = get_biome_name(biome)
-    return biomeSettings[biomeName]['road_material'];
+    return biomeSettings[biomeName]['road'];
 
 # adds biome id's to all blocks in a provided surface object
 def calculateBiomeMap(level, surface):
