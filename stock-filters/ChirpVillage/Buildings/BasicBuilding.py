@@ -1,10 +1,12 @@
 from pymclevel import alphaMaterials, MCSchematic, MCLevel, BoundingBox
 import utilityFunctions
+import BlockUtils
 
 
 class BasicBuilding():
-    def __init__(self, level, box, block_id=98, block_type=0, height=5):
-        details = {'height': height, 'block': (block_id, block_type)}
+    def __init__(self, level, box, surface, block_id=98, block_type=0, height=5):
+        self.biome = surface.surface_map[0][0].biome_id
+        details = {'height': height, 'wall': BlockUtils.get_wall_block(self.biome)}
         self.construct_walls(level, box, details)
         self.construct_roof(level, box, details)
         self.construct_floor(level, box)
@@ -20,7 +22,7 @@ class BasicBuilding():
                                 level, (160, 3), x, y, z)
                         else:
                             utilityFunctions.setBlock(
-                                level, details['block'], x, y, z)
+                                level, details['wall'], x, y, z)
                     # Check if building is empty
                     elif level.blockAt(x, y, z) != 0:
                         utilityFunctions.setBlock(
@@ -36,10 +38,10 @@ class BasicBuilding():
         for x in range(box.minx, box.maxx):
             for z in range(box.minz, box.maxz):
                 utilityFunctions.setBlock(
-                    level, details['block'], x, box.miny + details['height'], z)
+                    level, details['wall'], x, box.miny + details['height'], z)
 
     def construct_floor(self, level, box):
         # This is where we build a floor
         for x in range(box.minx, box.maxx):
             for z in range(box.minz, box.maxz):
-                utilityFunctions.setBlock(level, (98, 0), x, box.miny, z)
+                utilityFunctions.setBlock(level, BlockUtils.get_floor_block(self.biome), x, box.miny, z)
