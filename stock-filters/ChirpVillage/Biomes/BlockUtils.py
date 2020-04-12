@@ -34,13 +34,13 @@ def get_window_block(biome=1):
     return biomeSettings[biomeName]['window'];
 
 # adds biome id's to all blocks in a provided surface object
-def calculateBiomeMap(level, surface):
+def calculate_biomes_on_surface(level, surface):
 	for x in range(surface.x_start, surface.x_end):
 		for z in range(surface.z_start, surface.z_end):
 			chunk = level.getChunk(x / 16, z / 16)
 			chunkBiomeData = chunk.root_tag["Level"]["Biomes"].value
 			surface.surface_map[x - surface.x_start][z -
-			    surface.z_start].biome_id = chunkBiomeData[chunkIndexToBiomeDataIndexV2(x % 16, z % 16)]
+			    surface.z_start].biome_id = chunkBiomeData[chunk_index_to_biome_id(x % 16, z % 16)]
 
-def chunkIndexToBiomeDataIndexV2(x, z):
+def chunk_index_to_biome_id(x, z):
 	return 255 - ((15 - x) + (15 - z) * 16)

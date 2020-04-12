@@ -21,7 +21,7 @@ def perform(level, box, options):
 	# calculateHeightMapAdv(level, surface)
 	# calculateSteepnessMap(surface)
 	# calculateWaterPlacement(level, surface)
-    BlockUtils.calculateBiomeMap(level, surface)
+    BlockUtils.calculate_biomes_on_surface(level, surface)
     BasicBuilding(level, box, surface)
 
 
