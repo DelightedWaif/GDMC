@@ -1,9 +1,10 @@
 from pymclevel import alphaMaterials, MCSchematic, MCLevel, BoundingBox
+from BasicBuilding import BasicBuilding
+from Surface import Surface
 import utilityFunctions
 from random import randrange, uniform
-
 from ChirpVillage import BuildPlaneFinder, Builder
-
+import BlockUtils
 import os
 
 inputs = (
@@ -18,8 +19,15 @@ def perform(level, box, options):
     # build_from_schematic(x=box.minx, y=box.miny, z=box.minz,
     #                      filename=filename, level=level, box=box, options=options)
     # BasicBuilding(level, box)
+    surface = Surface(box.minx, box.minz, box.maxx, box.maxz)
+    # calculateHeightMapAdv(level, surface)
+    # calculateSteepnessMap(surface)
+    # calculateWaterPlacement(level, surface)
+    BlockUtils.calculateBiomeMap(level, surface)
+    BasicBuilding(level, box, surface)
     building = Builder.Building()
-    building.construct(level, box)
+    building.construct(level, box, surface)
+
 
 def build_paths(level, box):
     # this is where we build paths

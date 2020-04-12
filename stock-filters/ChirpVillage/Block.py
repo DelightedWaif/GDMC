@@ -1,9 +1,15 @@
 class Block(object):
 
-    def __init__(self, x, y, height):
-        self.x = x
-        self.y = y
-        self.height = height
+    # BLOCK TYPES
+    UNASSIGNED = 0
+    YARD = 1
+    BUILDING = 2
+    DOOR = 3
+    PATH = 4
 
-    def get_x(self):
-        return self.x
+    def __init__(self, x, z, height, type):
+        self.x = x
+        self.z = z
+        self.height = height
+        self.type = type
+        self.biome_id = -1  # undefined by default, set in calculateBiomeMap of BlockUtils
