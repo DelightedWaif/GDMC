@@ -11,6 +11,7 @@ class Surface(object):
         self.x_length = x_end - x_start
         self.z_length = z_end - z_start
         self.surface_map = self.init_surface_map()
+        self.door_blocks = []
 
     def init_surface_map(self):
         surface_map = []
