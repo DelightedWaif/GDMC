@@ -7,7 +7,7 @@ class Block(object):
     DOOR = 3
     PATH = 4
 
-    def __init__(self, x, z, height, type):
+    def __init__(self, x, z, height, type=0):
         self.x = x
         self.z = z
         self.height = height

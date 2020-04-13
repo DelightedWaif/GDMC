@@ -9,7 +9,6 @@ import os
 
 inputs = (
     ('Build Chirp Village', 'label'),
-    ('Material1', alphaMaterials.StoneBricks),
     ('Creator: Chirp Nets', 'label'),
 )
 
@@ -21,9 +20,12 @@ def perform(level, box, options):
     # BasicBuilding(level, box)
     surface = Surface(box.minx, box.minz, box.maxx, box.maxz)
     BlockUtils.calculate_biomes_on_surface(level, surface)
-    BasicBuilding(level, box, surface)
-    building = Builder.Building()
-    building.construct(level, box, surface)
+    # calculateHeightMapAdv(level, surface)
+    # calculateSteepnessMap(surface)
+    # calculateWaterPlacement(level, surface)
+    # BasicBuilding(level, box, surface)
+    building = Builder.BasicBuilding()
+    building.construct(level, ((box.minx, box.minz), (box.maxx, box.maxz)), surface)
 
 
 def build_paths(level, box):
