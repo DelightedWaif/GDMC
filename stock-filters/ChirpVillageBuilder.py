@@ -16,9 +16,6 @@ inputs = (
 def perform(level, box, options):
     surface = Surface(level, box)
     BlockUtils.calculate_biomes_on_surface(level, surface)
-    # calculateHeightMapAdv(level, surface)
-    # calculateSteepnessMap(surface)
-    # calculateWaterPlacement(level, surface)
 
 
 def build_paths(level, box):
