@@ -6,7 +6,7 @@ from Biomes import BlockUtils
 """Utils for buildings"""
 
 def get_coords(coords): 
-    return coords[0][0], coords[0][1], coords[0][2],coords[1][0],coords[1][1]
+    return coords[0][0], coords[0][1], coords[0][2], coords[1][0], coords[1][1]
 
 def construct_walls(level, coords, biome, height):
     minx, minz, miny, maxx, maxz = get_coords(coords)
