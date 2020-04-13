@@ -18,9 +18,6 @@ files = [
 
 def perform(level, box, options):
     surface = Surface(box.minx, box.minz, box.maxx, box.maxz)
-	# calculateHeightMapAdv(level, surface)
-	# calculateSteepnessMap(surface)
-	# calculateWaterPlacement(level, surface)
     BlockUtils.calculate_biomes_on_surface(level, surface)
     BasicBuilding(level, box, surface)
 

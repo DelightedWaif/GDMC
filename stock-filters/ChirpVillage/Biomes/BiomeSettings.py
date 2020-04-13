@@ -3,22 +3,22 @@ from BlockTypes import blocks
 # material names are currently hardcoded
 # block id's can be found at https://minecraft-ids.grahamedgecombe.com/
 biomeSettings = {
-	"Plains": { # Default
+    "Plains": { # Default
         "wall": blocks['Oak Wood Planks'],
         "fence": blocks['Oak Fence'],
         "floor": blocks['Stone Bricks'],
         "road": blocks['Cobblestone'],
         "door": blocks['Oak Door Block'],
         'window': blocks['Glass Pane']
-	},
-	"Desert": {
+    },
+    "Desert": {
         "wall": blocks['Chiseled Sandstone'], 
         "fence": blocks['Acacia Fence'],
         "floor": blocks['Sandstone'],
         "road": blocks['Smooth Sandstone'],
         "door": blocks['Air'],
         'window': blocks['Glass Pane']
-	},
+    },
     "Forest": {
         "wall": blocks['Dark Oak Wood Planks'],
         "fence": blocks['Dark Oak Fence'],
@@ -51,7 +51,7 @@ biomeSettings = {
         "door": blocks['Oak Door Block'],
         'window': blocks['Glass Pane'] 
     },
-	"Birch Forest": {
+    "Birch Forest": {
         "wall": blocks['Birch Wood Planks'],
         "fence": blocks['Birch Fence'],
         "floor": blocks['Stone Bricks'],
@@ -59,7 +59,7 @@ biomeSettings = {
         "door": blocks['Birch Door Block'],
         'window': blocks['Glass Pane'] 
     },
-	"Dark Forest": {
+    "Dark Forest": {
         "wall": blocks['Dark Oak Wood Planks'],
         "fence": blocks['Dark Oak Fence'],
         "floor": blocks['Stone Bricks'],
@@ -67,7 +67,7 @@ biomeSettings = {
         "door": blocks['Dark Oak Door Block'],
         'window': blocks['Glass Pane'] 
     },
-	"River Beach": {
+    "River Beach": {
         "wall": blocks['Oak Wood Planks'],
         "fence": blocks['Oak Fence'],
         "floor": blocks['Stone Bricks'],
@@ -75,7 +75,7 @@ biomeSettings = {
         "door": blocks['Oak Door Block'],
         'window': blocks['Glass Pane']
     },
-	"Ice": {
+    "Ice": {
         "wall": blocks['Oak Wood Planks'],
         "fence": blocks['Oak Fence'],
         "floor": blocks['Stone Bricks'],
@@ -83,7 +83,7 @@ biomeSettings = {
         "door": blocks['Oak Door Block'],
         'window': blocks['Glass Pane']
     },
-	"Mountains": {
+    "Mountains": {
         "wall": blocks['Oak Wood Planks'],
         "fence": blocks['Oak Fence'],
         "floor": blocks['Stone Bricks'],
@@ -91,7 +91,7 @@ biomeSettings = {
         "door": blocks['Oak Door Block'],
         'window': blocks['Glass Pane']
     },
-	"Mushroom": {
+    "Mushroom": {
         "wall": blocks['Oak Wood Planks'],
         "fence": blocks['Oak Fence'],
         "floor": blocks['Polished Granite'],
@@ -107,7 +107,7 @@ biomeSettings = {
         "door": blocks['Acacia Door Block'],
         'window': blocks['Glass Pane']
     },
-	"Badlands": {
+    "Badlands": {
         "wall": blocks['White Glazed Terracotta'],
         "fence": blocks['Oak Fence'],
         "floor": blocks['Stone Bricks'],
@@ -115,7 +115,7 @@ biomeSettings = {
         "door": blocks['Oak Door Block'],
         'window': blocks['Glass Pane']
     },
-	"Aquatic": {
+    "Aquatic": {
         "wall": blocks['Oak Wood Planks'],
         "fence": blocks['Oak Fence'],
         "floor": blocks['Stone Bricks'],
