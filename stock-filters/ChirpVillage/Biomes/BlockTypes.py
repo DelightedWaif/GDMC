@@ -32,6 +32,9 @@ blocks = {
     'Chiseled Stone Bricks': (98, 3),
     'Glass Pane': (102, 0),
     'Red Stained Glass Pane': (160, 14),
+    'Acacia Wood': (162, 0),
+    'Dark Oak Wood': (162, 1),
+    'Hardened Clay': (172, 0),
     'Spruce Fence': (188, 0),
     'Birch Fence': (189, 0),
     'Jungle Fence': (190, 0),
@@ -43,5 +46,6 @@ blocks = {
     'Acacia Door Block': (196, 0),
     'Dark Oak Door Block': (197, 0),
     'White Glazed Terracotta': (235, 0),
-    'Gray Glazed Terracotta': (242, 0)
+    'Gray Glazed Terracotta': (242, 0),
+    'Black Glazed Terracotta': (250, 0)
 }
