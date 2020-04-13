@@ -1,3 +1,12 @@
+# coding=utf-8
+"""
+    Block.py
+        Block class used to represent blocks within a surface's surface_map
+    Author: Chirp Nets
+    © 2020
+"""
+
+
 class Block(object):
 
     # BLOCK TYPES
@@ -6,6 +15,7 @@ class Block(object):
     BUILDING = 2
     DOOR = 3
     PATH = 4
+    BUILDING_DOOR = 5
 
     def __init__(self, x, z, height, type):
         self.x = x
