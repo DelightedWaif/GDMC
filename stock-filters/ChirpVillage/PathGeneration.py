@@ -8,7 +8,6 @@ from YardGenerator import YardGenerator
 class PathGenerator:
     def __init__(self, surface):
         self.surface = surface
-        self.path = None
         self.directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
 
     @staticmethod
@@ -72,9 +71,6 @@ class PathGenerator:
             block = self.surface.surface_map[x][z]
             block.set_type(Block.PATH)
             current = self.add(current, path[current])
-        self.path = path
-        return path
-
 
 # test code
 if __name__ == "__main__":
