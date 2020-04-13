@@ -14,18 +14,11 @@ inputs = (
 
 
 def perform(level, box, options):
-    # filename = os.getcwd() + default_path + 'ghast.schematic'
-    # build_from_schematic(x=box.minx, y=box.miny, z=box.minz,
-    #                      filename=filename, level=level, box=box, options=options)
-    # BasicBuilding(level, box)
-    surface = Surface(box.minx, box.minz, box.maxx, box.maxz)
+    surface = Surface(level, box)
     BlockUtils.calculate_biomes_on_surface(level, surface)
     # calculateHeightMapAdv(level, surface)
     # calculateSteepnessMap(surface)
     # calculateWaterPlacement(level, surface)
-    # BasicBuilding(level, box, surface)
-    building = Builder.BasicBuilding()
-    building.construct(level, ((box.minx, box.minz), (box.maxx, box.maxz)), surface)
 
 
 def build_paths(level, box):
