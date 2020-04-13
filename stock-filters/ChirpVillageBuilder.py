@@ -25,7 +25,7 @@ def perform(level, box, options):
     # calculateWaterPlacement(level, surface)
     # BasicBuilding(level, box, surface)
     building = Builder.BasicBuilding()
-    building.construct(level, ((box.minx, box.minz), (box.maxx, box.maxz)), surface)
+    building.construct(level, ((surface.to_surface_x(box.minx), surface.to_surface_z(box.minz)), (surface.to_surface_x(box.maxx), surface.to_surface_z(box.maxz))), surface)
 
 
 def build_paths(level, box):

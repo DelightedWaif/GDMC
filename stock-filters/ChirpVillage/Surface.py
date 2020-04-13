@@ -66,6 +66,9 @@ class Surface(object):
                     bottom = y
                     y = y + int(round(float(top - y)/2))
 
+# real x = surface x + start of surface
+# surface x = real x - start of surface
+
     def to_real_x(self, x):
         """
         Convert the surface x value to a real world x value
@@ -79,6 +82,20 @@ class Surface(object):
         :return: offset z value which is the real world z value
         """
         return self.z_start + z
+
+    def to_surface_x(self, x):
+        """
+        Convert the real x value to a surface x value
+        :return: offset x value which is the surface x value
+        """
+        return x - self.x_start
+
+    def to_surface_z(self, z):
+        """
+        Convert the real z value to a surface z value
+        :return: offset z value which is the surface z value
+        """
+        return z - self.z_start
 
     def visualize(self):
         """

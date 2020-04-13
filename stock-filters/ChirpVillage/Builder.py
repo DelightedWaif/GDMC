@@ -31,29 +31,15 @@ def construct_floor_and_flat_roof(level, coords, biome, height):
     miny = coords[0][2]
     maxx = coords[1][0]
     maxz = coords[1][1]
-    roof_block = BlockUtils.get_beam_block(biome)
-    floor_block = BlockUtils.get_floor_block(biome)
+    block = BlockUtils.get_beam_block(biome)
 
     # roof and floor
     for x in range(minx, maxx):
         for z in range(minz, maxz):
             utilityFunctions.setBlock(
-                level, roof_block, x, height, z)
+                level, block, x, height, z)
             utilityFunctions.setBlock(
-                level, floor_block, x, miny, z)
-
-def construct_pointed_roof(level, coords, biome, height):
-    minx = coords[0][0]
-    minz = coords[0][1]
-    miny = coords[0][2]
-    maxx = coords[1][0]
-    maxz = coords[1][1]
-    roof_block = BlockUtils.get_beam_block(biome)
-    for i in range(-1, maxx-minx/4):
-        for x in range(minx+i, maxx-i):
-            for z in range(minz+i, maxz-i):
-                utilityFunctions.setBlock(
-                    level, roof_block, x, height+i, z)
+                level, block, x, miny, z)
 
 def construct_pillars(level, coords, biome, height):
     minx = coords[0][0]
@@ -210,17 +196,13 @@ class BasicBuilding:
 
     def construct(self, level, coords, surface):
         # This is assumes box is already the size of the house
-        # minx = surface.to_real_x(coords[0][0])
-        # minz = surface.to_real_z(coords[0][1])
-        # maxx = surface.to_real_x(coords[1][0])
-        # maxz = surface.to_real_z(coords[1][1])
-        minx = coords[0][0]
-        minz = coords[0][1]
-        maxx = coords[1][0]
-        maxz = coords[1][1]
-        # block = surface.surface_map[minx][minz]
-        miny = 63  # block.height
-        biome = 1  # block.biome_id
+        minx = surface.to_real_x(coords[0][0])
+        minz = surface.to_real_z(coords[0][1])
+        maxx = surface.to_real_x(coords[1][0])
+        maxz = surface.to_real_z(coords[1][1])
+        block = surface.surface_map[coords[0][0]][coords[0][1]]
+        miny = block.height
+        biome = block.biome_id
         wall_block = BlockUtils.get_wall_block(biome)
         door_block = BlockUtils.get_door_block(biome)
         pillar_block = BlockUtils.get_beam_block(biome)
@@ -233,22 +215,18 @@ class BasicBuilding:
         construct_floor_and_flat_roof(level, level_coords, biome, pillar_height)
         place_door(level, level_coords, biome)
         place_windows(level, level_coords, biome, height_offset)
-        construct_pointed_roof(level, level_coords, biome, pillar_height)
+
 
 class MultiStoryBuilding():
     def construct(self, level, coords, surface, num_stories=1):
         # This is assumes box is already the size of the house
-        # minx = surface.to_real_x(coords[0][0])
-        # minz = surface.to_real_z(coords[0][1])
-        # maxx = surface.to_real_x(coords[1][0])
-        # maxz = surface.to_real_z(coords[1][1])
-        minx = coords[0][0]
-        minz = coords[0][1]
-        maxx = coords[1][0]
-        maxz = coords[1][1]
-        # block = surface.surface_map[minx][minz]
-        miny = 63  # block.height
-        biome = 1  # block.biome_id
+        minx = surface.to_real_x(coords[0][0])
+        minz = surface.to_real_z(coords[0][1])
+        maxx = surface.to_real_x(coords[1][0])
+        maxz = surface.to_real_z(coords[1][1])
+        block = surface.surface_map[coords[0][0]][coords[0][1]]
+        miny = block.height
+        biome = block.biome_id
         height_offset = RandUtils.rand_range(minx, miny, 10, 5)
         pillar_height = miny + height_offset
         level_coords = ((minx, minz, miny),(maxx, maxz, pillar_height))
@@ -266,13 +244,13 @@ class MultiStoryBuilding():
 
 class DecoratedBuilding():
     def construct(self, level, coords, surface):
-        minx = coords[0][0]
-        minz = coords[0][1]
-        maxx = coords[1][0]
-        maxz = coords[1][1]
-        # block = surface.surface_map[minx][minz]
-        miny = 63  # block.height
-        biome = 1  # block.biome_id
+        minx = surface.to_real_x(coords[0][0])
+        minz = surface.to_real_z(coords[0][1])
+        maxx = surface.to_real_x(coords[1][0])
+        maxz = surface.to_real_z(coords[1][1])
+        block = surface.surface_map[coords[0][0]][coords[0][1]]
+        miny = block.height
+        biome = block.biome_id
         hedge_block =  BlockUtils.get_hedge_block(biome)
         new_coords = ((minx+1, minz+1), (maxx-1, maxz-1))
         building = BasicBuilding()
@@ -283,5 +261,3 @@ class DecoratedBuilding():
                 if x == maxx-1 or z == maxz-1 or x == minx or z == minz:
                     if x != (maxx+minx)/2:
                         utilityFunctions.setBlock(level, hedge_block, x, miny, z)
-                    else:
-                        utilityFunctions.setBlock(level, (53, 0), x, miny, z)
