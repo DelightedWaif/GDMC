@@ -20,8 +20,7 @@ class Surface(object):
         self.x_length = self.x_end - self.x_start
         self.z_length = self.z_end - self.z_start
         self.surface_map = self.init_surface_map(level)
-        self.door_blocks = [(0,0), (3,0), (7,4), (15, 4)]
-        self.test_buildings = [(10, 7), (11, 7), (12, 7), (13, 7), (14, 7), (15, 7), (16, 7), (7, 7), (6, 7), (5, 7), (5, 5), (5, 6), (1, 6), (2, 6), (3, 6), (5, 10), (5, 11), (5, 12), (5, 9), (5, 8), (12, 8), (12, 9), (12, 10), (12, 11), (15, 14), (15, 13), (15, 12), (15, 11), (15, 10), (17, 7), (18, 7), (21, 7), (21, 6), (21, 5), (21, 4), (21, 3), (22, 5), (23, 5), (24, 5), (25, 5), (18, 10), (20, 10), (19, 10), (21, 10), (22, 10), (23, 10), (14, 4), (14, 5), (14, 6), (14, 0), (14, 1), (9, 2), (9, 1), (7, 3), (8, 3), (10, 3), (9, 3), (11, 3), (2, 5), (2, 4), (2, 3), (2, 2), (2, 0), (2, 1), (0, 11), (1, 11), (2, 11), (21, 2), (20, 11), (20, 12), (23, 13), (23, 14), (24, 10), (25, 10), (6, 12), (7, 12), (10, 12), (11, 12), (12, 12), (5, 3), (6, 3), (5, 4)]
+        self.door_blocks = []
 
     def set_surface_map(self, surface_map):
         self.surface_map = surface_map
@@ -39,19 +38,6 @@ class Surface(object):
                 row.append(Block(i, j, self.get_height(i, j, level), Block.UNASSIGNED))
             surface_map.append(row)
         return surface_map
-
-    def populate_surface_map(self):
-        for point in self.test_buildings:
-            x = point[0]
-            z = point[1]
-            block = self.surface_map[x][z]
-            block.set_type(1)
-        for point in self.door_blocks:
-            x = point[0]
-            z = point[1]
-            block = self.surface_map[x][z]
-            block.set_type(3)
-        print(self.surface_map)
 
     @staticmethod
     def get_height(x, z, level):

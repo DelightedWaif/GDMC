@@ -308,6 +308,7 @@ class YardGenerator(object):
                 curr = (curr[0], curr[1]-1)
             curr = (curr[0], curr[1]+1)
         self.door_blocks.append(curr)
+        new_surface.door_blocks.append(curr)
         new_surface.surface_map[curr[0]][curr[1]].type = Block.DOOR
         return new_surface
 
