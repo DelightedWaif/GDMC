@@ -5,12 +5,11 @@ from Biomes import BlockUtils
 
 """Utils for buildings"""
 
+def get_coords(coords): 
+    return coords[0][0], coords[0][1], coords[0][2],coords[1][0],coords[1][1]
+
 def construct_walls(level, coords, biome, height):
-    minx = coords[0][0]
-    minz = coords[0][1]
-    miny = coords[0][2]
-    maxx = coords[1][0]
-    maxz = coords[1][1]
+    minx, minz, miny, maxx, maxz = get_coords(coords)
     wall_block = BlockUtils.get_wall_block(biome)
     # walls
     for y in range(height, miny, -1):
@@ -25,11 +24,7 @@ def construct_walls(level, coords, biome, height):
                         level, wall_block, x, y, z)
 
 def construct_floor_and_flat_roof(level, coords, biome, height):
-    minx = coords[0][0]
-    minz = coords[0][1]
-    miny = coords[0][2]
-    maxx = coords[1][0]
-    maxz = coords[1][1]
+    minx, minz, miny, maxx, maxz = get_coords(coords)
     roof_block = BlockUtils.get_beam_block(biome)
     floor_block = BlockUtils.get_floor_block(biome)
 
@@ -42,11 +37,7 @@ def construct_floor_and_flat_roof(level, coords, biome, height):
                 level, floor_block, x, miny, z)
 
 def construct_pointed_roof(level, coords, biome, height):
-    minx = coords[0][0]
-    minz = coords[0][1]
-    miny = coords[0][2]
-    maxx = coords[1][0]
-    maxz = coords[1][1]
+    minx, minz, miny, maxx, maxz = get_coords(coords)
     roof_block = BlockUtils.get_beam_block(biome)
     for i in range(-1, maxx-minx/4):
         for x in range(minx+i, maxx-i):
@@ -55,11 +46,7 @@ def construct_pointed_roof(level, coords, biome, height):
                     level, roof_block, x, height+i, z)
                 
 def construct_pillars(level, coords, biome, height):
-    minx = coords[0][0]
-    minz = coords[0][1]
-    miny = coords[0][2]
-    maxx = coords[1][0]
-    maxz = coords[1][1]
+    minx, minz, miny, maxx, maxz = get_coords(coords)
     pillar_block = BlockUtils.get_beam_block(biome)
     for y in range(miny, height):
         for x in [minx, maxx-1]:
@@ -68,11 +55,7 @@ def construct_pillars(level, coords, biome, height):
                     level, pillar_block, x, y, z)
                 
 def place_door(level, coords, biome):
-    minx = coords[0][0]
-    minz = coords[0][1]
-    miny = coords[0][2]
-    maxx = coords[1][0]
-    maxz = coords[1][1]
+    minx, minz, miny, maxx, maxz = get_coords(coords)
     door_block = BlockUtils.get_door_block(biome)
     # Place door
     utilityFunctions.setBlock(
@@ -81,11 +64,8 @@ def place_door(level, coords, biome):
         level, door_block, (minx+maxx)/2, miny+2, minz)
 
 def place_windows(level, coords, biome, height_offset):
-    minx = coords[0][0]
-    minz = coords[0][1]
-    miny = coords[0][2] + 1
-    maxx = coords[1][0]
-    maxz = coords[1][1]
+    minx, minz, miny, maxx, maxz = get_coords(coords)
+    miny += 1
     for i in range(0, 4):
         if i == 0:
             window_coords = ((maxx+minx)/2, miny+(2*height_offset)/3, minz)
