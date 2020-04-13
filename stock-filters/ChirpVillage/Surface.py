@@ -103,9 +103,9 @@ class Surface(object):
         """
         print("Surface Looks Like: \n")
         print("| " + "".join([" + " for _ in range(self.x_length)]) + " |")
-        for i in range(self.x_length):
+        for j in range(self.z_length):
             row = ["|"]
-            for j in range(self.z_length):
+            for i in range(self.x_length):
                 row.append("_" if self.surface_map[i][j].type == Block.YARD else
                            "#" if self.surface_map[i][j].type == Block.BUILDING else
                            "|" if self.surface_map[i][j].type == Block.DOOR else
