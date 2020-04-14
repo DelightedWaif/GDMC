@@ -1,11 +1,13 @@
 from collections import deque
 from Block import Block
 from YardGenerator import YardGenerator
-
+import utilityFunctions
+from Biomes import BlockUtils
 
 class PathGenerator:
-    def __init__(self, surface):
+    def __init__(self, surface, level):
         self.surface = surface
+        self.level = level
         self.directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
 
     @staticmethod
@@ -68,6 +70,8 @@ class PathGenerator:
             x, z = current
             block = self.surface.surface_map[x][z]
             block.type = Block.PATH
+            level_block = BlockUtils.get_road_block(block.biome_id)
+            utilityFunctions.setBlock(level, level_block, surface.to_real_x(x), block.height, surface.to_real_z(z))
             current = self.add(current, path[current])
 
 
@@ -81,6 +85,6 @@ if __name__ == "__main__":
     yard_generator.generate_yards()
     surface = yard_generator.surface
     print(surface.door_blocks)
-    path_generator = PathGenerator(surface)
+    path_generator = PathGenerator(surface, level)
     path_generator.generate_paths()
     surface.visualize()
