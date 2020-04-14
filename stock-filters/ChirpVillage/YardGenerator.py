@@ -6,11 +6,10 @@
     © 2020
 """
 
-
+import utilityFunctions as utilityFunctions
 from Surface import Surface
 from RandUtils import lehmer_2, rand_range
 from Block import Block
-
 from copy import copy
 
 
@@ -21,12 +20,12 @@ class YardGenerator(object):
     MAX_BUILDING_AREA = 100
     MIN_BUILDING_AREA = 40
 
-    def __init__(self, level, box):
+    def __init__(self, level, box, surface):
         # CA CONFIG
         self.iter_num = 5
         self.death_limit = 4
         self.birth_limit = 3
-
+        self.level = level
         self.seed = level.RandomSeed
         self.x_start = box.minx
         self.z_start = box.minz
@@ -34,7 +33,7 @@ class YardGenerator(object):
         self.z_end = box.maxz
         self.x_length = self.x_end - self.x_start
         self.z_length = self.z_end - self.z_start
-        self.surface = Surface(level, box)
+        self.surface = surface
         self.partitions = self.get_partitions()
         self.building_coords = []
         self.door_blocks = []
@@ -156,6 +155,13 @@ class YardGenerator(object):
         for _ in range(self.iter_num):
             new_surface = self.do_iteration_step(new_surface, x_start, x_end, z_start, z_end)
         new_surface = self.do_post_processing(new_surface, x_start, x_end, z_start, z_end)
+
+        #draw
+        for i in range(x_start, x_end):
+            for j in range(z_start, z_end):
+                if self.surface.surface_map[i][j].type == Block.YARD:
+                    utilityFunctions.setBlock(self.level, (1, 0), self.surface.to_real_x(i), self.surface.surface_map[i][j].height, self.surface.to_real_z(j))
+
         return new_surface
 
     def do_iteration_step(self, new_surface, x_start, x_end, z_start, z_end):

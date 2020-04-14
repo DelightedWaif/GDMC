@@ -12,7 +12,8 @@ from Surface import Surface
 from ChirpVillage import Builder
 from ChirpVillage.Biomes import BlockUtils
 from ChirpVillage.YardGenerator import YardGenerator
-
+from ChirpVillage.PathGeneration import PathGenerator
+from ChirpVillage.RandUtils import rand_range
 inputs = (
     ('Build Chirp Village', 'label'),
     ('Creator: Chirp Nets', 'label'),
@@ -20,14 +21,30 @@ inputs = (
 
 
 def perform(level, box, options):
-    yard_generator = YardGenerator(level, box)
+    # Yard Generation
+    surface = Surface(level, box)
+    yard_generator = YardGenerator(level, box, surface)
     yard_generator.generate_yards()
     surface = yard_generator.surface
+
+    # Biome Adaptibility
     BlockUtils.calculate_biomes_on_surface(level, surface)
+    
+    # Path Generation
     path_generator = PathGenerator(surface, level)
     path_generator.generate_paths()
-    building = Builder.BasicBuilding()
-    building.construct(level, ((surface.to_surface_x(box.minx), surface.to_surface_z(box.minz)), (surface.to_surface_x(box.maxx), surface.to_surface_z(box.maxz))), surface)
+    # Building Generation
+    # building = Builder.BasicBuilding()
+    for door, building_lot in zip(yard_generator.building_door_blocks, yard_generator.building_coords):
+        print((building_lot[0], building_lot[1]))
+        rand =  rand_range(door[0], door[1], 100, 0)
+        if rand < 30:
+            building = Builder.BasicBuilding()
+        elif rand < 60:
+            building = Builder.DecoratedBuilding()
+        else:
+            building = Builder.MultiStoryBuilding()
+        building.construct(level, (building_lot[0], building_lot[1]), door, surface)
 
 
 # This is a slightly modified version of a schematic reader function found at:
