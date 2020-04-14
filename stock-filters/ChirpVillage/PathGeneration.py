@@ -66,14 +66,30 @@ class PathGenerator:
 
         # Draw paths
         current = self.add(end, path[end])
+        direction = path[end]
         while current != start:
             # find next in path
             x, z = current
             block = self.surface.surface_map[x][z]
             block.type = Block.PATH
+            # # If path his moving horiziontally, try to widen it by adding blocks above and below it
+            # if (direction == (-1,0) or direction == (1,0)):
+            #     path_edges = [(x, z-1), (x, z+1)]
+            # # If path his moving vertically, try to widen it by adding blocks to the left and to the right of it
+            # elif (direction == (0,-1) or direction == (0,1)):
+            #     path_edges = (x-1, z), (x+1, z)
+            path_edges = [(x, z-1), (x, z+1), (x-1, z), (x+1, z)]
+            path_edges = filter(self.block_in_grid, path_edges)
+            path_edges = filter(self.block_is_free, path_edges)
+            for edge in path_edges:
+                block = self.surface.surface_map[edge[0]][edge[1]]
+                block.type = Block.PATH
+                level_block = BlockUtils.get_road_block(block.biome_id)
+                utilityFunctions.setBlock(level, level_block, self.surface.to_real_x(block.x), edge.height, self.surface.to_real_z(block.z))
             level_block = BlockUtils.get_road_block(block.biome_id)
             utilityFunctions.setBlock(level, level_block, surface.to_real_x(x), block.height, surface.to_real_z(z))
             current = self.add(current, path[current])
+            direction = path[current]
 
 
 # test code
@@ -81,7 +97,7 @@ if __name__ == "__main__":
     from Mocks.Box import BoundingBox
     from Mocks.Level import Level
     level = Level()
-    box = BoundingBox(0, 0, 50 , 50)
+    box = BoundingBox(0, 0, 75 , 75)
     yard_generator = YardGenerator(level, box)
     yard_generator.generate_yards()
     surface = yard_generator.surface

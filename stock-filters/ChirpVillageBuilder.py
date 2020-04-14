@@ -12,6 +12,7 @@ from Surface import Surface
 from ChirpVillage import Builder
 from ChirpVillage.Biomes import BlockUtils
 from ChirpVillage.YardGenerator import YardGenerator
+from ChirpVillage.PathGeneration import PathGenerator
 
 inputs = (
     ('Build Chirp Village', 'label'),
