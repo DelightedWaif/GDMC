@@ -7,43 +7,25 @@
 """
 
 
-from pymclevel import alphaMaterials, MCSchematic, MCLevel, BoundingBox
-from ChirpVillage.Buildings.BasicBuilding import BasicBuilding
+from pymclevel import MCSchematic, MCLevel, BoundingBox
+from Surface import Surface
+from ChirpVillage import Builder
 from ChirpVillage.Biomes import BlockUtils
 from ChirpVillage.YardGenerator import YardGenerator
 
 inputs = (
     ('Build Chirp Village', 'label'),
-    ('Material1', alphaMaterials.StoneBricks),
     ('Creator: Chirp Nets', 'label'),
 )
-default_path = '/stock-filters/ChirpVillage/Buildings/'
-files = [
-    'ghast.schematic',
-]
 
 
 def perform(level, box, options):
     yard_generator = YardGenerator(level, box)
     yard_generator.generate_yards()
     surface = yard_generator.surface
-
-    # calculateHeightMapAdv(level, surface)
-    # calculateSteepnessMap(surface)
-    # calculateWaterPlacement(level, surface)
-
     BlockUtils.calculate_biomes_on_surface(level, surface)
-    BasicBuilding(level, box, surface)
-
-
-def construct_building(level, box, type):
-    # This is where we build a building
-    pass
-
-
-def construct_pillars(level, box):
-    # This is where we build pillars
-    pass
+    building = Builder.BasicBuilding()
+    building.construct(level, ((surface.to_surface_x(box.minx), surface.to_surface_z(box.minz)), (surface.to_surface_x(box.maxx), surface.to_surface_z(box.maxz))), surface)
 
 
 def build_paths(level, box):
