@@ -20,7 +20,6 @@ inputs = (
 
 
 def perform(level, box, options):
-    surface = Surface(level, box)
     yard_generator = YardGenerator(level, box)
     yard_generator.generate_yards()
     surface = yard_generator.surface
