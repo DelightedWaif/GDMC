@@ -72,7 +72,7 @@ class PathGenerator:
             block = self.surface.surface_map[x][z]
             block.type = Block.PATH
             level_block = BlockUtils.get_road_block(block.biome_id)
-            utilityFunctions.setBlock(level, level_block, surface.to_real_x(x), block.height, surface.to_real_z(z))
+            utilityFunctions.setBlock(self.level, level_block, self.surface.to_real_x(x), block.height, self.surface.to_real_z(z))
             current = self.add(current, path[current])
 
 
