@@ -7,12 +7,9 @@
 """
 
 
-from pymclevel import alphaMaterials, MCSchematic, MCLevel, BoundingBox
+from pymclevel import MCSchematic, MCLevel, BoundingBox
 from Surface import Surface
-import utilityFunctions
-from random import randrange, uniform
-from ChirpVillage import BuildPlaneFinder, Builder
-import os
+from ChirpVillage import Builder
 from ChirpVillage.Biomes import BlockUtils
 from ChirpVillage.YardGenerator import YardGenerator
 

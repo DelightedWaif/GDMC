@@ -17,7 +17,7 @@ class Block(object):
     PATH = 4
     BUILDING_DOOR = 5
 
-    def __init__(self, x, z, height, type=Block.UNASSIGNED):
+    def __init__(self, x, z, height, type=UNASSIGNED):
         self.x = x
         self.z = z
         self.height = height
