@@ -111,7 +111,8 @@ class Surface(object):
             for i in range(self.x_length):
                 row.append("_" if self.surface_map[i][j].type == Block.YARD else
                            "#" if self.surface_map[i][j].type == Block.BUILDING else
-                           "|" if self.surface_map[i][j].type == Block.DOOR else
+                           "X" if self.surface_map[i][j].type == Block.DOOR else
+                           "@" if self.surface_map[i][j].type == Block.PATH else
                            " ")
             row.append("|")
             print("  ".join(row))
