@@ -30,11 +30,6 @@ def perform(level, box, options):
     building.construct(level, ((surface.to_surface_x(box.minx), surface.to_surface_z(box.minz)), (surface.to_surface_x(box.maxx), surface.to_surface_z(box.maxz))), surface)
 
 
-def build_paths(level, box):
-    # this is where we build paths
-    pass
-
-
 # This is a slightly modified version of a schematic reader function found at:
 # http://www.brightmoore.net/mcedit-filters-1/blockschematicswapper
 def build_from_schematic(x, y, z, filename, level, box, options):
