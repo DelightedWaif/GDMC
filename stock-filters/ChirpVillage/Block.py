@@ -23,6 +23,3 @@ class Block(object):
         self.height = height
         self.type = type
         self.biome_id = -1  # undefined by default, set in calculateBiomeMap of BlockUtils
-    
-    def set_type(self, new_type):
-        self.type = new_type

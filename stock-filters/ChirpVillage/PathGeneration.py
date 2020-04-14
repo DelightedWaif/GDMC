@@ -1,5 +1,3 @@
-from Mocks.Box import BoundingBox
-from Mocks.Level import Level
 from collections import deque
 from Block import Block
 from YardGenerator import YardGenerator
@@ -69,11 +67,14 @@ class PathGenerator:
             # find next in path
             x, z = current
             block = self.surface.surface_map[x][z]
-            block.set_type(Block.PATH)
+            block.type = Block.PATH
             current = self.add(current, path[current])
+
 
 # test code
 if __name__ == "__main__":
+    from Mocks.Box import BoundingBox
+    from Mocks.Level import Level
     level = Level()
     box = BoundingBox(0, 0, 50 , 50)
     yard_generator = YardGenerator(level, box)

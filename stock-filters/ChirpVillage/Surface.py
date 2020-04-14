@@ -22,9 +22,6 @@ class Surface(object):
         self.surface_map = self.init_surface_map(level)
         self.door_blocks = []
 
-    def set_surface_map(self, surface_map):
-        self.surface_map = surface_map
-
     def init_surface_map(self, level):
         """
         Initialize the surface_map with data from the world's level
