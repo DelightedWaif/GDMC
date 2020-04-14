@@ -77,7 +77,7 @@ class Surface(object):
     def to_real_z(self, z):
         """
         Convert the surface z value to a real world z value
-        real x = surface x + start of surface
+        real z = surface z + start of surface
         :return: offset z value which is the real world z value
         """
         return self.z_start + z
@@ -93,7 +93,7 @@ class Surface(object):
     def to_surface_z(self, z):
         """
         Convert the real z value to a surface z value
-        surface x = real x - start of surface
+        surface z = real z - start of surface
         :return: offset z value which is the surface z value
         """
         return z - self.z_start
