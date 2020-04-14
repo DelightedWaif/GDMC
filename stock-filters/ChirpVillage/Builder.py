@@ -54,14 +54,14 @@ def construct_pillars(level, coords, biome, height):
                 utilityFunctions.setBlock(
                     level, pillar_block, x, y, z)
                 
-def place_door(level, coords, biome):
+def place_door(level, coords, biome, door_coords):
     minx, minz, miny, maxx, maxz = get_coords(coords)
     door_block = BlockUtils.get_door_block(biome)
     # Place door
     utilityFunctions.setBlock(
-        level, door_block, (minx+maxx)/2, miny+1, minz)
+        level, door_block, door_coords[0], miny+1, door_coords[1])
     utilityFunctions.setBlock(
-        level, door_block, (minx+maxx)/2, miny+2, minz)
+        level, door_block, door_coords[0], miny+2, door_coords[1])
 
 def place_windows(level, coords, biome, height_offset):
     minx, minz, miny, maxx, maxz = get_coords(coords)
@@ -187,7 +187,7 @@ def remove_blocks_in_box(level, coords):
 """Building Classes"""
 class BasicBuilding:
 
-    def construct(self, level, coords, surface):
+    def construct(self, level, coords, door_coords, surface):
         # This is assumes box is already the size of the house
         minx = surface.to_real_x(coords[0][0])
         minz = surface.to_real_z(coords[0][1])
@@ -207,12 +207,12 @@ class BasicBuilding:
         construct_walls(level, level_coords, biome, pillar_height)
         construct_floor_and_flat_roof(level, level_coords, biome, pillar_height)
         construct_pointed_roof(level, level_coords, biome, pillar_height)
-        place_door(level, level_coords, biome)
+        place_door(level, level_coords, biome, door_coords)
         place_windows(level, level_coords, biome, height_offset)
 
 
 class MultiStoryBuilding():
-    def construct(self, level, coords, surface, num_stories=1):
+    def construct(self, level, coords, door_coords, surface, num_stories=2):
         # This is assumes box is already the size of the house
         minx = surface.to_real_x(coords[0][0])
         minz = surface.to_real_z(coords[0][1])
@@ -231,27 +231,28 @@ class MultiStoryBuilding():
             construct_floor_and_flat_roof(level, level_coords, biome, pillar_height)
             place_windows(level, level_coords, biome, height_offset)
             if i == 0:
-                place_door(level, level_coords, biome)
+                place_door(level, level_coords, biome, door_coords)
             level_coords = ((minx, minz, pillar_height), (maxx, maxz))
             pillar_height += height_offset
 
 
 class DecoratedBuilding():
-    def construct(self, level, coords, surface):
-        minx = surface.to_real_x(coords[0][0])
-        minz = surface.to_real_z(coords[0][1])
-        maxx = surface.to_real_x(coords[1][0])
-        maxz = surface.to_real_z(coords[1][1])
+    def construct(self, level, coords, door_coords, surface):
+        minx = coords[0][0]
+        minz = coords[0][1]
+        maxx = coords[1][0]
+        maxz = coords[1][1]
         block = surface.surface_map[coords[0][0]][coords[0][1]]
         miny = block.height
         biome = block.biome_id
         hedge_block =  BlockUtils.get_hedge_block(biome)
         new_coords = ((minx+1, minz+1), (maxx-1, maxz-1))
+        door_coords = ((door_coords[0]+1, door_coords[1]+1))
         building = BasicBuilding()
-        building.construct(level, new_coords, surface)
+        building.construct(level, new_coords, door_coords, surface)
         # ring basic building in hedge
         for x in range(minx, maxx):
             for z in range(minz, maxz):
                 if x == maxx-1 or z == maxz-1 or x == minx or z == minz:
-                    if x != (maxx+minx)/2:
-                        utilityFunctions.setBlock(level, hedge_block, x, miny, z)
+                    if x != (maxx+minx)/2 or z == maxz-1:
+                        utilityFunctions.setBlock(level, hedge_block, surface.to_real_x(x), miny+1, surface.to_real_z(z))
