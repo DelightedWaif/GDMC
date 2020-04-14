@@ -238,20 +238,21 @@ class MultiStoryBuilding():
 
 class DecoratedBuilding():
     def construct(self, level, coords, door_coords, surface):
-        minx = surface.to_real_x(coords[0][0])
-        minz = surface.to_real_z(coords[0][1])
-        maxx = surface.to_real_x(coords[1][0])
-        maxz = surface.to_real_z(coords[1][1])
+        minx = coords[0][0]
+        minz = coords[0][1]
+        maxx = coords[1][0]
+        maxz = coords[1][1]
         block = surface.surface_map[coords[0][0]][coords[0][1]]
         miny = block.height
         biome = block.biome_id
         hedge_block =  BlockUtils.get_hedge_block(biome)
         new_coords = ((minx+1, minz+1), (maxx-1, maxz-1))
+        door_coords = ((door_coords[0]+1, door_coords[1]+1))
         building = BasicBuilding()
         building.construct(level, new_coords, door_coords, surface)
         # ring basic building in hedge
         for x in range(minx, maxx):
             for z in range(minz, maxz):
                 if x == maxx-1 or z == maxz-1 or x == minx or z == minz:
-                    if x != (maxx+minx)/2:
-                        utilityFunctions.setBlock(level, hedge_block, x, miny, z)
+                    if x != (maxx+minx)/2 or z == maxz-1:
+                        utilityFunctions.setBlock(level, hedge_block, surface.to_real_x(x), miny+1, surface.to_real_z(z))
