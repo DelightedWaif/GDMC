@@ -24,6 +24,8 @@ def perform(level, box, options):
     yard_generator.generate_yards()
     surface = yard_generator.surface
     BlockUtils.calculate_biomes_on_surface(level, surface)
+    path_generator = PathGenerator(surface, level)
+    path_generator.generate_paths()
     building = Builder.BasicBuilding()
     building.construct(level, ((surface.to_surface_x(box.minx), surface.to_surface_z(box.minz)), (surface.to_surface_x(box.maxx), surface.to_surface_z(box.maxz))), surface)
 

@@ -4,6 +4,7 @@ from YardGenerator import YardGenerator
 import utilityFunctions
 from Biomes import BlockUtils
 
+
 class PathGenerator:
     def __init__(self, surface, level):
         self.surface = surface
