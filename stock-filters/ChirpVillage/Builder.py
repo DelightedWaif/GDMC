@@ -1,6 +1,7 @@
 import utilityFunctions
 import RandUtils
 from Biomes import BlockUtils
+from BlockTypes import blocks
 
 
 """Utils for buildings"""
@@ -183,6 +184,24 @@ def remove_blocks_in_box(level, coords):
             for z in range(minz, maxz):
                 utilityFunctions.setBlock(level, (0, 0), x, y, z)
 
+def construct_farm(level, coords, biome):
+    minx, minz, miny, maxx, maxz = get_coords(coords)
+    water_block = blocks["Still Water"]
+    crop_block = BlockUtils.get_crop_block(biome)
+    dirt_block = blocks["Dirt"]
+
+    for x in range(minx, maxx):
+        for z in range(minz, maxz):
+            if (z % 2 == 0):
+                utilityFunctions.setBlock(
+                    level, crop_block, x, miny+1, z)
+                utilityFunctions.setBlock(
+                    level, dirt_block, x, miny, z)
+            else:
+                utilityFunctions.setBlock(
+                    level, water_block, x, miny, z)
+            
+
 
 """Building Classes"""
 class BasicBuilding:
@@ -255,3 +274,22 @@ class DecoratedBuilding():
                 if x == maxx-1 or z == maxz-1 or x == minx or z == minz:
                     if x != (maxx+minx)/2:
                         utilityFunctions.setBlock(level, hedge_block, x, miny, z)
+
+class Farm():
+
+    def construct(self, level, coords, surface):
+        # This is assumes box is already the size of the house
+        minx = surface.to_real_x(coords[0][0])
+        minz = surface.to_real_z(coords[0][1])
+        maxx = surface.to_real_x(coords[1][0])
+        maxz = surface.to_real_z(coords[1][1])
+        block = surface.surface_map[coords[0][0]][coords[0][1]]
+        miny = block.height
+        biome = block.biome_id
+        crop_block = BlockUtils.get_crop_block(biome)
+        spacer_block = BlockUtils.get_beam_block(biome)
+        height_offset = RandUtils.rand_range(minx, miny, 10, 5)
+        pillar_height = miny + height_offset
+        level_coords = ((minx, minz, miny),(maxx, maxz, pillar_height))
+        remove_blocks_in_box(level, level_coords)
+        construct_farm(level, level_coords, biome)

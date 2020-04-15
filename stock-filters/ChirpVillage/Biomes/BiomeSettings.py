@@ -12,7 +12,8 @@ biomeSettings = {
         'window': blocks['Glass Pane'],
         "beam": blocks['Oak Wood'],
         'hedge': blocks['Oak Leaves'],
-        'roof': blocks['Stone Bricks']
+        'roof': blocks['Stone Bricks'],
+        'crop': blocks['Wheat']
     },
     "Desert": {
         "wall": blocks['Chiseled Sandstone'], 
@@ -23,7 +24,8 @@ biomeSettings = {
         'window': blocks['Glass Pane'],
         "beam": blocks['Smooth Sandstone'],
         'hedge': blocks['Cactus'],
-        'roof': blocks['Sandstone']
+        'roof': blocks['Sandstone'],
+        'crop': blocks['Cactus']
     },
     "Forest": {
         "wall": blocks['Oak Wood Planks'],
@@ -34,7 +36,8 @@ biomeSettings = {
         'window': blocks['Glass Pane'],
         "beam": blocks['Oak Wood'],
         'hedge': blocks['Oak Leaves'],
-        'roof': blocks['Stone Bricks']
+        'roof': blocks['Stone Bricks'],
+        'crop': blocks['Wheat']
     },
     "Jungle": {
         "wall": blocks['Jungle Wood Planks'],
@@ -45,7 +48,8 @@ biomeSettings = {
         'window': blocks['Glass Pane'],
         "beam": blocks['Jungle Wood'],
         'hedge': blocks['Jungle Leaves'],
-        'roof': blocks['Mossy Stone Bricks']
+        'roof': blocks['Mossy Stone Bricks'],
+        'crop': blocks['Wheat']
     },
     "Taiga": {
         "wall": blocks['Spruce Wood Planks'],
@@ -56,7 +60,8 @@ biomeSettings = {
         'window': blocks['Glass Pane'],
         "beam": blocks['Spruce Wood'],
         'hedge': blocks['Spruce Leaves'],
-        'roof': blocks['Stone Bricks']
+        'roof': blocks['Stone Bricks'],
+        'crop': blocks['Potatoes']
     },
     "Swamp": {
         "wall": blocks['Oak Wood Planks'],
@@ -67,7 +72,8 @@ biomeSettings = {
         'window': blocks['Glass Pane'],
         "beam": blocks['Oak Wood'],
         'hedge': blocks['Oak Leaves'],
-        'roof': blocks['Stone Bricks']
+        'roof': blocks['Stone Bricks'],
+        'crop': blocks['Potatoes']
     },
     "Birch Forest": {
         "wall": blocks['Birch Wood Planks'],
@@ -78,7 +84,8 @@ biomeSettings = {
         'window': blocks['Glass Pane'],
         "beam": blocks['Birch Wood'],
         'hedge': blocks['Birch Leaves'],
-        'roof': blocks['Stone Bricks']
+        'roof': blocks['Stone Bricks'],
+        'crop': blocks['Carrots']
     },
     "Dark Forest": {
         "wall": blocks['Dark Oak Wood Planks'],
@@ -89,7 +96,8 @@ biomeSettings = {
         'window': blocks['Glass Pane'],
         "beam": blocks['Dark Oak Wood'],
         'hedge': blocks['Dark Oak Leaves'],
-        'roof': blocks['Stone Bricks']
+        'roof': blocks['Stone Bricks'],
+        'crop': blocks['Wheat']
     },
     "River Beach": {
         "wall": blocks['Oak Wood Planks'],
@@ -100,7 +108,8 @@ biomeSettings = {
         'window': blocks['Glass Pane'],
         "beam": blocks['Oak Wood'],
         'hedge': blocks['Sugar Cane'],
-        'roof': blocks['Stone Bricks']
+        'roof': blocks['Stone Bricks'],
+        'crop': blocks['Sugar Cane']
     },
     "Ice": {
         "wall": blocks['Quartz Block'],
@@ -111,7 +120,8 @@ biomeSettings = {
         'window': blocks['Glass Pane'],
         "beam": blocks['Piller Quartz Block'],
         'hedge': blocks['Snow Block'],
-        'roof': blocks['Quartz Block']
+        'roof': blocks['Quartz Block'],
+        'crop': blocks['Potatoes']
     },
     "Mountains": {
         "wall": blocks['Oak Wood Planks'],
@@ -122,7 +132,8 @@ biomeSettings = {
         'window': blocks['Glass Pane'],
         "beam": blocks['Oak Wood'],
         'hedge': blocks['Oak Leaves'],
-        'roof': blocks['Mossy Stone Bricks']
+        'roof': blocks['Mossy Stone Bricks'],
+        'crop': blocks['Wheat']
     },
     "Mushroom": {
         "wall": blocks['Oak Wood Planks'],
@@ -133,7 +144,8 @@ biomeSettings = {
         'window': blocks['Red Stained Glass Pane'],
         "beam": blocks['Hardened Clay'],
         'hedge': blocks['Red Mushroom'],
-        'roof': blocks['Polished Granite']
+        'roof': blocks['Polished Granite'],
+        'crop': blocks['Red Mushroom']
     },
 	"Savanna": {
         "wall": blocks['Acacia Wood Planks'],
@@ -144,7 +156,8 @@ biomeSettings = {
         'window': blocks['Glass Pane'],
         "beam": blocks['Acacia Wood'],
         'hedge': blocks['Acacia Leaves'],
-        'roof': blocks['Stone Bricks']
+        'roof': blocks['Stone Bricks'],
+        'crop': blocks['Wheat']
     },
     "Badlands": {
         "wall": blocks['White Glazed Terracotta'],
@@ -155,7 +168,8 @@ biomeSettings = {
         'window': blocks['Glass Pane'],
         "beam": blocks['Black Glazed Terracotta'],
         'hedge': blocks['Cactus'],
-        'roof': blocks['Gray Glazed Terracotta']
+        'roof': blocks['Gray Glazed Terracotta'],
+        'crop': blocks['Cactus']
     },
     "Aquatic": {
         "wall": blocks['Oak Wood Planks'],
@@ -166,6 +180,7 @@ biomeSettings = {
         'window': blocks['Glass Pane'],
         "beam": blocks['Oak Wood'],
         'hedge': blocks['Oak Leaves'],
-        'roof': blocks['Mossy Stone Bricks']
+        'roof': blocks['Mossy Stone Bricks'],
+        'crop': blocks['Sugar Cane']
     }
 }
