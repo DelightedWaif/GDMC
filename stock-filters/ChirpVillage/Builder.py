@@ -25,7 +25,7 @@ def construct_walls(level, coords, biome, height):
 
 def construct_floor_and_flat_roof(level, coords, biome, height):
     minx, minz, miny, maxx, maxz = get_coords(coords)
-    roof_block = BlockUtils.get_beam_block(biome)
+    roof_block = BlockUtils.get_roof_block(biome)
     floor_block = BlockUtils.get_floor_block(biome)
 
     # roof and floor
@@ -38,7 +38,7 @@ def construct_floor_and_flat_roof(level, coords, biome, height):
 
 def construct_pointed_roof(level, coords, biome, height):
     minx, minz, miny, maxx, maxz = get_coords(coords)
-    roof_block = BlockUtils.get_beam_block(biome)
+    roof_block = BlockUtils.get_roof_block(biome)
     for i in range(-1, maxx-minx/4):
         for x in range(minx+i, maxx-i):
             for z in range(minz+i, maxz-i):
