@@ -189,19 +189,26 @@ def construct_farm(level, coords, biome):
     water_block = blocks["Still Water"]
     crop_block = BlockUtils.get_crop_block(biome)
     dirt_block = blocks["Dirt"]
+    wall_block = BlockUtils.get_wall_block(biome)
 
     for x in range(minx, maxx):
         for z in range(minz, maxz):
-            if (z % 2 == 0):
+            if (z == minz or z == maxz - 1  or x == minx or x == maxx - 1):
                 utilityFunctions.setBlock(
-                    level, crop_block, x, miny+1, z)
+                    level, wall_block, x, miny, z)
                 utilityFunctions.setBlock(
-                    level, dirt_block, x, miny, z)
+                    level, wall_block, x, miny - 1, z)
             else:
+                if (z % 2 == 0):
+                    utilityFunctions.setBlock(
+                        level, crop_block, x, miny + 1, z)
+                    utilityFunctions.setBlock(
+                        level, dirt_block, x, miny, z)
+                else:
+                    utilityFunctions.setBlock(
+                        level, water_block, x, miny, z)
                 utilityFunctions.setBlock(
-                    level, water_block, x, miny, z)
-            
-
+                    level, dirt_block, x, miny - 1, z)
 
 """Building Classes"""
 class BasicBuilding:
@@ -278,7 +285,7 @@ class DecoratedBuilding():
 
 class Farm():
 
-    def construct(self, level, coords, surface):
+    def construct(self, level, coords, door_coords, surface):
         # This is assumes box is already the size of the house
         minx = surface.to_real_x(coords[0][0])
         minz = surface.to_real_z(coords[0][1])
