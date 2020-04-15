@@ -30,9 +30,10 @@ class Surface(object):
 
     def calc_steepness(self):
         """
-        Initialize the surface_map with data from the world's level
-        :param level: level object which stores the worlds blocks and block data
-        :return: initialized surface_map filled with correct data from level
+        calculate steepness of the blocks in the surface_map.
+            Accomplished by taking an average of the 8 surrounding blocks and
+            finding the difference between the curr block and the average
+        :return: new_surface_map filled with calculated steepness data
         """
         print("calc_steepness")
         new_surface_map = copy(self.surface_map)
