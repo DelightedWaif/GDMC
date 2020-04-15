@@ -55,7 +55,7 @@ def perform(level, box, options):
         elif rand < 50:
             building = Builder.MultiStoryBuilding()
         elif rand < 75:
-            building = Builder.Farm()
+            building = Builder.LinearFarmLot()
         else:
             building = Builder.DecoratedBuilding()
         building.construct(level, (building_lot[0], building_lot[1]), (surface.to_real_x(door[0]), surface.to_real_z(door[1])), surface)
