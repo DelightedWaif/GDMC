@@ -283,7 +283,7 @@ class DecoratedBuilding():
                     if x != (maxx+minx)/2 or z == maxz-1:
                         utilityFunctions.setBlock(level, hedge_block, surface.to_real_x(x), miny+1, surface.to_real_z(z))
 
-class Farm():
+class LinearFarmLot():
 
     def construct(self, level, coords, door_coords, surface):
         # This is assumes box is already the size of the house
