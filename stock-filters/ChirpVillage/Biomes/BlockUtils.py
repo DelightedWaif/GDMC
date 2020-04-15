@@ -45,6 +45,10 @@ def get_roof_block(biome=1):
     biomeName = get_biome_name(biome)
     return biomeSettings[biomeName]['roof']
 
+def get_crop_block(biome=1):
+    biomeName = get_biome_name(biome)
+    return biomeSettings[biomeName]['crop']
+
 # adds biome id's to all blocks in a provided surface object
 def calculate_biomes_on_surface(level, surface):
     for x in range(surface.x_start, surface.x_end):
