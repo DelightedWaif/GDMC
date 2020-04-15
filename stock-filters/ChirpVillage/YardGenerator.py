@@ -5,12 +5,12 @@
     Author: Chirp Nets
     © 2020
 """
-
+if __name__ != "__main__":
+    import utilityFunctions
 
 from Surface import Surface
 from RandUtils import lehmer_2, rand_range
 from Block import Block
-
 from copy import copy
 
 
@@ -21,20 +21,22 @@ class YardGenerator(object):
     MAX_BUILDING_AREA = 100
     MIN_BUILDING_AREA = 40
 
-    def __init__(self, level, box):
+    def __init__(self, level, box, surface):
+        print("YardGenerator.__init__")
         # CA CONFIG
         self.iter_num = 5
         self.death_limit = 4
         self.birth_limit = 3
 
+        self.level = level
         self.seed = level.RandomSeed
         self.x_start = box.minx
         self.z_start = box.minz
         self.x_end = box.maxx
         self.z_end = box.maxz
-        self.x_length = self.x_end - self.x_start
-        self.z_length = self.z_end - self.z_start
-        self.surface = Surface(level, box)
+        self.x_length = abs(self.x_end - self.x_start)
+        self.z_length = abs(self.z_end - self.z_start)
+        self.surface = surface
         self.partitions = self.get_partitions()
         self.building_coords = []
         self.door_blocks = []
@@ -47,6 +49,7 @@ class YardGenerator(object):
             - We split x axis first, then for each x segment we split the z axis to ensure unequal grid cells
         :returns: a list of tuples of coords to the corners of each partition chunk (eg. [((x_start,z_start),(x_end,z_end))])
         """
+        print("get_partitions")
         partitions = []
         x_splits = self.calc_x_splits()
         curr_x = 3
@@ -65,6 +68,7 @@ class YardGenerator(object):
             - Uses a depth first algorithm to create splitting lines.
         :returns: a list of x values to specify the vertical splitting line.
         """
+        print("calc_x_splits")
         partition_lines = []
         segments = []
         if self.x_length/2 > self.MIN_YARD_SIZE[0]:
@@ -91,6 +95,7 @@ class YardGenerator(object):
         :returns: a list of z values to specify the horizontal splitting lines for the current vertical offset
                 within the surface map.
         """
+        print("calc_z_splits")
         partition_lines = []
         segments = []
         if self.z_length/2 > self.MIN_YARD_SIZE[1]:
@@ -114,6 +119,7 @@ class YardGenerator(object):
         Generate yards, building lots, path doors, building doors and place them within the self.surface member
         :returns: void (sets self.surface)
         """
+        print("generate_yards")
         new_surface = copy(self.surface)
         probability_generate_yard = 0.90  # Chance of partition being a yard
         for p in self.partitions:
@@ -127,6 +133,7 @@ class YardGenerator(object):
         Run the yard generating cellular automata within the partition on the surface.
         :returns: Surface obj new_surface that CA has ran on
         """
+        print("run_ca_on_partition")
         new_surface = self.init_surface(new_surface, partition[0][0], partition[1][0], partition[0][1], partition[1][1])
         new_surface = self.do_ca(new_surface, partition[0][0], partition[1][0], partition[0][1], partition[1][1])
         return new_surface
@@ -138,6 +145,7 @@ class YardGenerator(object):
         :params x_start, x_end, z_start, z_end: the current partition bounds
         :returns: a modified new_surface that has been initialized for CA iterations
         """
+        print("init_surface")
         probability_spawning_yard_block = 0.40
         for i in range(x_start, x_end):
             for j in range(z_start, z_end):
@@ -153,9 +161,18 @@ class YardGenerator(object):
         :params x_start, x_end, z_start, z_end: the current partition bounds
         :returns: a modified new_surface that has been modified by the CA
         """
+        print("do_ca")
         for _ in range(self.iter_num):
             new_surface = self.do_iteration_step(new_surface, x_start, x_end, z_start, z_end)
         new_surface = self.do_post_processing(new_surface, x_start, x_end, z_start, z_end)
+
+        #draw
+        if __name__ != "__main__":
+            for i in range(x_start, x_end):
+                for j in range(z_start, z_end):
+                    if self.surface.surface_map[i][j].type == Block.YARD and self.count_neighbours(i,j, x_start,x_end,z_start,z_end,Block.UNASSIGNED) > 1:
+                        utilityFunctions.setBlock(self.level, (85, 0), self.surface.to_real_x(i), self.surface.surface_map[i][j].height+1, self.surface.to_real_z(j))
+
         return new_surface
 
     def do_iteration_step(self, new_surface, x_start, x_end, z_start, z_end):
@@ -165,6 +182,7 @@ class YardGenerator(object):
         :params x_start, x_end, z_start, z_end: the current partition bounds
         :returns: a modified new_surface that has been modified by the CA iteration step
         """
+        print("do_iteration_step")
         for i in range(x_start, x_end):
             for j in range(z_start, z_end):
                 num_alive_neighbours = self.count_neighbours(i, j, x_start, x_end, z_start, z_end, Block.YARD)
@@ -188,6 +206,7 @@ class YardGenerator(object):
         :params type: the Block.type of neighbour we are looking for
         :returns: count of the neighbours of type type
         """
+        print("count_neighbours")
         count = 0
         for i in range(-1, 2, 1):
             for j in range(-1, 2, 1):
@@ -207,6 +226,7 @@ class YardGenerator(object):
         :params x_start, x_end, z_start, z_end: the current partition bounds
         :returns: a modified new_surface that has been modified post processor (buildings, building doors, and doors added)
         """
+        print("do_post_processing")
         new_surface = self.generate_buildings(new_surface, x_start, x_end, z_start, z_end)
         new_surface = self.generate_building_door_blocks(new_surface, x_start, x_end, z_start, z_end)
         new_surface = self.generate_door_blocks(new_surface, x_start, x_end, z_start, z_end)
@@ -220,6 +240,7 @@ class YardGenerator(object):
         :returns: a modified new_surface that has the building lots set
             (also fills the self.building_coords list with tuples of coords to the corners of the building)
         """
+        print("generate_buildings")
         # Random Growth Rate for the building lots
         growth_1 = rand_range(x_start, z_start, 2, 1)
         growth_2 = 3 - growth_1
@@ -260,6 +281,7 @@ class YardGenerator(object):
         :params corners: the current building lot corners
         :returns: a bool to indicate validness of the corners (is the building lot within the yard)
         """
+        print("are_valid_corners")
         valid = True
         if (corners[1][0] - corners[0][0]) * (corners[1][1] - corners[0][1]) > YardGenerator.MAX_BUILDING_AREA:
             # if building lot area is too big, building lot also not valid
@@ -278,6 +300,7 @@ class YardGenerator(object):
         :returns: a modified new_surface that has the door cells set
             (also fills the self.doors list with coords to the door block)
         """
+        print("generate_door_blocks")
         option = rand_range(x_start, z_start, 3, 0)  # pick one of four options for door placement
         curr = (x_end - ((x_end - x_start) / 2), (z_end - ((z_end - z_start) / 2)))  # set curr to center of yard
         if new_surface.surface_map[curr[0]][curr[1]].type == Block.UNASSIGNED:
@@ -320,6 +343,7 @@ class YardGenerator(object):
         :returns: a modified new_surface that has the building door cells set
             (also fills the self.building_doors list with coords to the door block)
         """
+        print("generate_building_door_blocks")
         option = rand_range(x_start, z_start, 3, 0)  # pick one of four options for door placement
         curr = (x_end - ((x_end - x_start) / 2), (z_end - ((z_end - z_start) / 2)))  # set curr to center of yard
         if new_surface.surface_map[curr[0]][curr[1]].type != Block.BUILDING:
@@ -328,30 +352,34 @@ class YardGenerator(object):
 
         # OPTION 1: look for yard edge to the left
         if option == 0:
-            while new_surface.surface_map[curr[0]][curr[1]].type != Block.YARD:
+            while self.within_bounds(new_surface, curr) and new_surface.surface_map[curr[0]][curr[1]].type != Block.YARD:
                 curr = (curr[0]+1, curr[1])
             curr = (curr[0] - 1, curr[1])
 
         # OPTION 2: look for yard edge to the right
         elif option == 1:
-            while new_surface.surface_map[curr[0]][curr[1]].type != Block.YARD:
+            while self.within_bounds(new_surface, curr) and new_surface.surface_map[curr[0]][curr[1]].type != Block.YARD:
                 curr = (curr[0]-1, curr[1])
             curr = (curr[0] + 1, curr[1])
 
         # OPTION 3: look for yard edge upward
         elif option == 2:
-            while new_surface.surface_map[curr[0]][curr[1]].type != Block.YARD:
+            while self.within_bounds(new_surface, curr) and new_surface.surface_map[curr[0]][curr[1]].type != Block.YARD:
                 curr = (curr[0], curr[1]+1)
             curr = (curr[0], curr[1]-1)
 
         # OPTION 4: look for yard edge to the downward
         elif option == 3:
-            while new_surface.surface_map[curr[0]][curr[1]].type != Block.YARD:
+            while self.within_bounds(new_surface, curr) and new_surface.surface_map[curr[0]][curr[1]].type != Block.YARD:
                 curr = (curr[0], curr[1]-1)
             curr = (curr[0], curr[1]+1)
         self.building_door_blocks.append(curr)
         new_surface.surface_map[curr[0]][curr[1]].type = Block.BUILDING_DOOR
         return new_surface
+
+    @staticmethod
+    def within_bounds(new_surface, curr):
+        return 0 < curr[0] < len(new_surface.surface_map) and 0 < curr[1] < len(new_surface.surface_map[curr[0]])
 
 
 if __name__ == "__main__":
@@ -360,10 +388,11 @@ if __name__ == "__main__":
     from Mocks.Box import BoundingBox
 
     level = Level()
-    box = BoundingBox(25, 25, 225, 225)
-    yard_generator = YardGenerator(level, box)
+    box = BoundingBox(25, 70, 25, 45, 80, 45)
+    surface = Surface(level, box)
+    yard_generator = YardGenerator(level, box, surface)
     yard_generator.generate_yards()
     surface = yard_generator.surface
-    print(yard_generator.building_coords)
-    surface.surface_map[0][1].type = Block.DOOR
-    surface.visualize()
+    surface.visualize_yards()
+    surface.visualize_heights()
+    surface.visualize_steepness()

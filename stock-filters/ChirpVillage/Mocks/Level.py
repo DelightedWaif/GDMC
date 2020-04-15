@@ -31,7 +31,7 @@ class Level(object):
         for i in range(self.x_max):
             j_column = []
             for j in range(self.z_max):
-                height = randrange(30, 254)
+                height = randrange(60, 80)
                 j_column.append([0 if h >= height else 1 for h in range(self.y_max)])
             world.append(j_column)
         return world

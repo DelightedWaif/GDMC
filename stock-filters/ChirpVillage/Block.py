@@ -21,5 +21,6 @@ class Block(object):
         self.x = x
         self.z = z
         self.height = height
+        self.steepness = -1  # undefined by default, set in surface constructor
         self.type = type
         self.biome_id = -1  # undefined by default, set in calculateBiomeMap of BlockUtils

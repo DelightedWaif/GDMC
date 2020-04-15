@@ -8,10 +8,12 @@
 
 
 from pymclevel import MCSchematic, MCLevel, BoundingBox
-from Surface import Surface
+from ChirpVillage.Surface import Surface
 from ChirpVillage import Builder
 from ChirpVillage.Biomes import BlockUtils
 from ChirpVillage.YardGenerator import YardGenerator
+from ChirpVillage.PathGeneration import PathGenerator
+from ChirpVillage.RandUtils import rand_range
 
 inputs = (
     ('Build Chirp Village', 'label'),
@@ -20,14 +22,41 @@ inputs = (
 
 
 def perform(level, box, options):
-    yard_generator = YardGenerator(level, box)
+    print("RUNNING CHIRP VILLAGE GENERATOR!! ")
+    # Yard Generation
+    print("Surface")
+    surface = Surface(level, box)
+    print("Yard Generator")
+    yard_generator = YardGenerator(level, box, surface)
+    print("generate yards")
     yard_generator.generate_yards()
+    print("getting Surface")
     surface = yard_generator.surface
+
+    surface.visualize_yards()
+    surface.visualize_heights()
+    surface.visualize_steepness()
+
+    # Biome Adaptibility
     BlockUtils.calculate_biomes_on_surface(level, surface)
+
+    # Path Generation
     path_generator = PathGenerator(surface, level)
     path_generator.generate_paths()
-    building = Builder.BasicBuilding()
-    building.construct(level, ((surface.to_surface_x(box.minx), surface.to_surface_z(box.minz)), (surface.to_surface_x(box.maxx), surface.to_surface_z(box.maxz))), surface)
+
+    # Building Generation
+    for door, building_lot in zip(yard_generator.building_door_blocks, yard_generator.building_coords):
+        rand = rand_range(door[0], door[1], 100, 0)
+        print(rand)
+        print(building_lot[0], building_lot[1])
+        print(door)
+        if rand < 30:
+            building = Builder.BasicBuilding()
+        elif rand < 60:
+            building = Builder.MultiStoryBuilding()
+        else:
+            building = Builder.DecoratedBuilding()
+        building.construct(level, (building_lot[0], building_lot[1]), (surface.to_real_x(door[0]), surface.to_real_z(door[1])), surface)
 
 
 # This is a slightly modified version of a schematic reader function found at:
