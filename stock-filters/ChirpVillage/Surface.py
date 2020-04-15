@@ -8,7 +8,7 @@
 """
 
 from Block import Block
-
+from BlockTypes import surface_blocks
 from copy import copy
 
 
@@ -85,10 +85,10 @@ class Surface(object):
             print("y,bottom,top", str(y), str(bottom), str(top))
             block = level.blockAt(self.to_real_x(x), y, self.to_real_z(z))
             print("block is: ", str(block))
-            if block == 0:
+            if block in surface_blocks:
                 neighbour_below = level.blockAt(self.to_real_x(x), y - 1, self.to_real_z(z))
                 print("neighbour_below is: ", str(neighbour_below))
-                if neighbour_below != 0:
+                if neighbour_below not in surface_blocks:
                     return y-1
                 else:
                     top = y
@@ -96,7 +96,7 @@ class Surface(object):
             else:
                 neighbour_above = level.blockAt(self.to_real_x(x), y + 1, self.to_real_z(z))
                 print("neighbour_above is: ", str(neighbour_above))
-                if neighbour_above == 0:
+                if neighbour_above in surface_blocks:
                     return y+1
                 else:
                     bottom = y

@@ -86,8 +86,17 @@ class PathGenerator:
                 block.type = Block.PATH
                 level_block = BlockUtils.get_road_block(block.biome_id)
                 utilityFunctions.setBlock(self.level, level_block, self.surface.to_real_x(block.x), block.height, self.surface.to_real_z(block.z))
+                above = block.height + 1
+                while self.level.blockAt(self.surface.to_real_x(block.x), above, self.surface.to_real_z(block.z)) != 0:
+                    utilityFunctions.setBlock(self.level, (0, 0), self.surface.to_real_x(block.x), above, self.surface.to_real_z(block.z))
+                    above += 1
+
             level_block = BlockUtils.get_road_block(block.biome_id)
-            utilityFunctions.setBlock(self.level, level_block, self.surface.to_real_x(x), block.height, self.surface.to_real_z(z))
+            utilityFunctions.setBlock(self.level, level_block, self.surface.to_real_x(block.x), block.height, self.surface.to_real_z(block.z))
+            above = block.height + 1
+            while self.level.blockAt(self.surface.to_real_x(x), above, self.surface.to_real_z(z)) != 0:
+                utilityFunctions.setBlock(self.level, (0, 0), self.surface.to_real_x(block.x), above, self.surface.to_real_z(block.z))
+                above += 1
             current = self.add(current, path[current])
             direction = path[current]
 
