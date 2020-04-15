@@ -1,3 +1,4 @@
+# Block ID's
 blocks = {
     'Air': (0, 0),
     'Stone': (1, 0),
@@ -63,3 +64,6 @@ blocks = {
     'Gray Glazed Terracotta': (242, 0),
     'Black Glazed Terracotta': (250, 0)
 }
+
+# Blocks which sit ontop of the surface ie. Grass, Trees, Mushrooms etc
+surface_blocks = [0, 6, 8, 10, 17, 18, 31, 32, 37, 38, 39, 40, 59, 78, 81, 83, 99, 100, 103, 104, 105, 106, 111, 141, 142, 161, 162, 175]
