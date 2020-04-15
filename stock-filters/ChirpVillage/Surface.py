@@ -9,18 +9,49 @@
 
 from Block import Block
 
+from copy import copy
+
 
 class Surface(object):
 
     def __init__(self, level, box):
+        print("surface.__init__")
         self.x_start = box.minx
+        self.y_start = box.miny
         self.z_start = box.minz
         self.x_end = box.maxx
+        self.y_end = box.maxy
         self.z_end = box.maxz
-        self.x_length = self.x_end - self.x_start
-        self.z_length = self.z_end - self.z_start
+        self.x_length = abs(self.x_end - self.x_start)
+        self.z_length = abs(self.z_end - self.z_start)
         self.surface_map = self.init_surface_map(level)
+        self.surface_map = self.calc_steepness()
         self.door_blocks = []
+
+    def calc_steepness(self):
+        """
+        Initialize the surface_map with data from the world's level
+        :param level: level object which stores the worlds blocks and block data
+        :return: initialized surface_map filled with correct data from level
+        """
+        print("calc_steepness")
+        new_surface_map = copy(self.surface_map)
+        directions = [(0, 0), (1, 0), (1, 1), (-1, 0), (0, 1), (0, -1), (-1, -1), (-1, 1), (1, -1)]
+        for i in range(self.x_length):
+            for j in range(self.z_length):
+                neighbors = [self.add((i, j), connection) for connection in directions]
+                neighbors_heights = [self.surface_map[n[0]][n[1]].height for n in neighbors if 0 <= n[0] < self.x_length and 0 <= n[1] < self.z_length]
+                avg_height = float(sum(neighbors_heights) / len(neighbors_heights))
+                new_surface_map[i][j].steepness = int(round(abs(self.surface_map[i][j].height - avg_height)))
+        return new_surface_map
+
+    @staticmethod
+    def add(x, y):
+        if x is None:
+            return y
+        if y is None:
+            return x
+        return x[0] + y[0], x[1] + y[1]
 
     def init_surface_map(self, level):
         """
@@ -28,6 +59,7 @@ class Surface(object):
         :param level: level object which stores the worlds blocks and block data
         :return: initialized surface_map filled with correct data from level
         """
+        print("init_surface_map")
         surface_map = []
         for i in range(self.x_length):
             row = []
@@ -36,8 +68,7 @@ class Surface(object):
             surface_map.append(row)
         return surface_map
 
-    @staticmethod
-    def get_height(x, z, level):
+    def get_height(self, x, z, level):
         """
         Find the first ground block before air using a binary search.
         :param x: x-coord to the block
@@ -45,21 +76,26 @@ class Surface(object):
         :param level: level object which stores the worlds blocks and block data
         :return: height (y-value) of the first ground block before air.
         """
-        top = 255
-        bottom = 0
-        y = 128  # Start at halfway.
+        print("get_height")
+        top = self.y_start + 40
+        bottom = self.y_start - 40
+        y = self.y_start  # Start at halfway.
         found = False
         while not found:
-            block = level.blockAt(x, y, z)
+            print("y,bottom,top", str(y), str(bottom), str(top))
+            block = level.blockAt(self.to_real_x(x), y, self.to_real_z(z))
+            print("block is: ", str(block))
             if block == 0:
-                neighbour_below = level.blockAt(x, y-1, z)
+                neighbour_below = level.blockAt(self.to_real_x(x), y - 1, self.to_real_z(z))
+                print("neighbour_below is: ", str(neighbour_below))
                 if neighbour_below != 0:
                     return y-1
                 else:
                     top = y
                     y = y - int(round(float(y - bottom)/2))
             else:
-                neighbour_above = level.blockAt(x, y + 1, z)
+                neighbour_above = level.blockAt(self.to_real_x(x), y + 1, self.to_real_z(z))
+                print("neighbour_above is: ", str(neighbour_above))
                 if neighbour_above == 0:
                     return y+1
                 else:
@@ -98,7 +134,7 @@ class Surface(object):
         """
         return z - self.z_start
 
-    def visualize(self):
+    def visualize_yards(self):
         """
         Visualize the surface.surface_map by printing out
         predefined symbols for Block.types
@@ -114,6 +150,36 @@ class Surface(object):
                            "X" if self.surface_map[i][j].type == Block.DOOR else
                            "@" if self.surface_map[i][j].type == Block.PATH else
                            " ")
+            row.append("|")
+            print("  ".join(row))
+        print("| " + "".join([" + " for _ in range(self.x_length)]) + " |")
+
+    def visualize_heights(self):
+        """
+        Visualize the surface.surface_map by printing out heights
+        :return: void
+        """
+        print("Surface Looks Like: \n")
+        print("| " + "".join([" + " for _ in range(self.x_length)]) + " |")
+        for j in range(self.z_length):
+            row = ["|"]
+            for i in range(self.x_length):
+                row.append(str(self.surface_map[i][j].height))
+            row.append("|")
+            print("  ".join(row))
+        print("| " + "".join([" + " for _ in range(self.x_length)]) + " |")
+
+    def visualize_steepness(self):
+        """
+        Visualize the surface.surface_map by printing out steepness values
+        :return: void
+        """
+        print("Surface Looks Like: \n")
+        print("| " + "".join([" + " for _ in range(self.x_length)]) + " |")
+        for j in range(self.z_length):
+            row = ["|"]
+            for i in range(self.x_length):
+                row.append(str(self.surface_map[i][j].steepness))
             row.append("|")
             print("  ".join(row))
         print("| " + "".join([" + " for _ in range(self.x_length)]) + " |")

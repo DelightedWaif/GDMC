@@ -8,7 +8,7 @@
 
 
 from pymclevel import MCSchematic, MCLevel, BoundingBox
-from Surface import Surface
+from ChirpVillage.Surface import Surface
 from ChirpVillage import Builder
 from ChirpVillage.Biomes import BlockUtils
 from ChirpVillage.YardGenerator import YardGenerator
@@ -22,24 +22,33 @@ inputs = (
 
 
 def perform(level, box, options):
+    print("RUNNING CHIRP VILLAGE GENERATOR!! ")
     # Yard Generation
+    print("Surface")
     surface = Surface(level, box)
+    print("Yard Generator")
     yard_generator = YardGenerator(level, box, surface)
+    print("generate yards")
     yard_generator.generate_yards()
+    print("getting Surface")
     surface = yard_generator.surface
 
+    surface.visualize_yards()
+    surface.visualize_heights()
+    surface.visualize_steepness()
+
     # Biome Adaptibility
-    BlockUtils.calculate_biomes_on_surface(level, surface)
+    # BlockUtils.calculate_biomes_on_surface(level, surface)
 
     # Path Generation
     path_generator = PathGenerator(surface, level)
     path_generator.generate_paths()
+
     # Building Generation
-    # building = Builder.BasicBuilding()
     for door, building_lot in zip(yard_generator.building_door_blocks, yard_generator.building_coords):
-        rand =  rand_range(door[0], door[1], 100, 0)
+        rand = rand_range(door[0], door[1], 100, 0)
         print(rand)
-        print((building_lot[0], building_lot[1]))
+        print(building_lot[0], building_lot[1])
         print(door)
         if rand < 30:
             building = Builder.BasicBuilding()
