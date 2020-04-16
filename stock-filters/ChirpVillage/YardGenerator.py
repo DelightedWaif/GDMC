@@ -150,7 +150,7 @@ class YardGenerator(object):
         for i in range(x_start, x_end):
             for j in range(z_start, z_end):
                 block_probability = float((lehmer_2(lehmer_2(self.seed, i), j)) % 100) / 100
-                if block_probability < probability_spawning_yard_block:
+                if block_probability < probability_spawning_yard_block and not new_surface.surface_map[i][j].is_water and not new_surface.surface_map[i][j].is_lava:
                     new_surface.surface_map[i][j].type = Block.YARD
         return new_surface
 
@@ -192,7 +192,7 @@ class YardGenerator(object):
                     else:
                         new_surface.surface_map[i][j].type = Block.YARD  # cell stays alive
                 else:
-                    if num_alive_neighbours > self.birth_limit:
+                    if num_alive_neighbours > self.birth_limit and not new_surface.surface_map[i][j].is_water and not new_surface.surface_map[i][j].is_lava:
                         new_surface.surface_map[i][j].type = Block.YARD  # cell dies
                     else:
                         new_surface.surface_map[i][j].type = Block.UNASSIGNED  # cell stays alive

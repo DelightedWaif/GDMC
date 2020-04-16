@@ -32,7 +32,14 @@ class Level(object):
             j_column = []
             for j in range(self.z_max):
                 height = randrange(60, 80)
-                j_column.append([0 if h >= height else 1 for h in range(self.y_max)])
+                # add river down center
+                if j == self.z_max-self.z_min:
+                    j_column.append([0 if h >= height else 8 for h in range(self.y_max)])
+                # add lava down quarter
+                elif j == (self.z_max -self.z_min)/2:
+                    j_column.append([0 if h >= height else 10 for h in range(self.y_max)])
+                else:
+                    j_column.append([0 if h >= height else 1 for h in range(self.y_max)])
             world.append(j_column)
         return world
 

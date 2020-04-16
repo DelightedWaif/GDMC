@@ -15,6 +15,7 @@ blocks = {
     'Dark Oak Wood Planks': (5, 5),
     'Still Water': (9, 0),
     'Sand': (12, 0),
+    'Red Sand': (12, 1),
     'Gravel': (13, 0),
     'Oak Wood': (17, 0),
     'Spruce Wood': (17, 1),
@@ -71,9 +72,10 @@ blocks = {
     'Acacia Door Block': (196, 0),
     'Dark Oak Door Block': (197, 0),
     'White Glazed Terracotta': (235, 0),
+    'Yellow Glazed Terracotta': (239, 0),
     'Gray Glazed Terracotta': (242, 0),
     'Black Glazed Terracotta': (250, 0),
 }
 
 # Blocks which sit ontop of the surface ie. Grass, Trees, Mushrooms etc
-surface_blocks = [0, 6, 8, 10, 17, 18, 31, 32, 37, 38, 39, 40, 59, 78, 81, 83, 99, 100, 103, 104, 105, 106, 111, 141, 142, 161, 162, 175]
+surface_blocks = [0, 6, 17, 18, 31, 32, 37, 38, 39, 40, 59, 78, 81, 83, 99, 100, 103, 104, 105, 106, 111, 141, 142, 161, 162, 175]
