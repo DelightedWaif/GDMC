@@ -89,7 +89,7 @@ class PathGenerator:
                 level_block = BlockUtils.get_road_block(block.biome_id)
                 bridge_block = BlockUtils.get_bridge_block(block.biome_id)
                 if block.is_water:
-                  utilityFunctions.setBlock(self.level, bridge_block, self.surface.to_real_x(block.x), block.height, self.surface.to_real_z(block.z))
+                    utilityFunctions.setBlock(self.level, bridge_block, self.surface.to_real_x(block.x), block.height, self.surface.to_real_z(block.z))
                 else:
                     utilityFunctions.setBlock(self.level, level_block, self.surface.to_real_x(block.x), block.height, self.surface.to_real_z(block.z))
 
