@@ -26,3 +26,4 @@ class Block(object):
         self.biome_id = -1  # undefined by default, set in calculateBiomeMap of BlockUtils
         self.is_water = False
         self.is_lava = False
+        self.path_placed = False

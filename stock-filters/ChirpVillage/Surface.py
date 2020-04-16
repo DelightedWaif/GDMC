@@ -118,13 +118,20 @@ class Surface(object):
                     top = y
                     y = y - int(round(float(y - bottom)/2))
             else:
+                # neighbour_above = level.blockAt(self.to_real_x(x), y + 1, self.to_real_z(z))
+                # # print("neighbour_above is: ", str(neighbour_above))
+                # if neighbour_above in surface_blocks:
+                #     return y+1
+                # else:
+                #     bottom = y
+                #     y = y + int(round(float(top - y)/2))
                 neighbour_above = level.blockAt(self.to_real_x(x), y + 1, self.to_real_z(z))
                 # print("neighbour_above is: ", str(neighbour_above))
                 if neighbour_above in surface_blocks:
-                    return y+1
+                    return y
                 else:
                     bottom = y
-                    y = y + int(round(float(top - y)/2))
+                    y = y + int(round(float(top - y) / 2))
 
     def to_real_x(self, x):
         """
