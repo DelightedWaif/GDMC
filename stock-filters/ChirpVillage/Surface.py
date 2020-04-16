@@ -8,7 +8,7 @@
 """
 
 from Block import Block
-from BlockTypes import surface_blocks
+from Biomes.BlockTypes import surface_blocks, blocks
 from copy import copy
 
 
@@ -26,7 +26,30 @@ class Surface(object):
         self.z_length = abs(self.z_end - self.z_start)
         self.surface_map = self.init_surface_map(level)
         self.surface_map = self.calc_steepness()
+        self.surface_map = self.find_waterways(level)
         self.door_blocks = []
+
+    def find_waterways(self, level):
+        """
+        find water systems in the surface_map.
+        :return: new_surface_map with corrected block types
+        """
+        print("find_waterways")
+        new_surface_map = copy(self.surface_map)
+        water_blocks = [8,9]
+        lava_blocks = [10,11]
+        for i in range(self.x_length):
+            for j in range(self.z_length):
+                block = self.surface_map[i][j]
+                block_type = level.blockAt(self.to_real_x(i), block.height-1, self.to_real_z(j))
+                if block_type in water_blocks:
+                    print("Found Water")
+                    block.is_water = True
+                elif block_type in lava_blocks:
+                    print("Found Lava")
+                    block.is_lava = True
+                new_surface_map[i][j] = block
+        return new_surface_map
 
     def calc_steepness(self):
         """
@@ -150,6 +173,8 @@ class Surface(object):
                            "#" if self.surface_map[i][j].type == Block.BUILDING else
                            "X" if self.surface_map[i][j].type == Block.DOOR else
                            "@" if self.surface_map[i][j].type == Block.PATH else
+                           "W" if self.surface_map[i][j].is_water == True else
+                           "L" if self.surface_map[i][j].is_lava == True else
                            " ")
             row.append("|")
             print("  ".join(row))
