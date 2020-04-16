@@ -1,4 +1,4 @@
-# maps biome numbers to supported biomes
+# maps biome IDs to supported biomes
 biome_map = {
     "Plains": [1, 129],
     "Forest": [4, 18, 132],

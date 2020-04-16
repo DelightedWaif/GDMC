@@ -39,9 +39,9 @@ class Surface(object):
         for x in range(self.x_start, self.x_end):
             for z in range(self.z_start, self.z_end):
                 chunk = level.getChunk(x / 16, z / 16)
-                chunk_biome = chunk.root_tag["Level"]["Biomes"].value
+                chunk_biomes = chunk.root_tag["Level"]["Biomes"].value
                 self.surface_map[x - self.x_start][z -
-                    self.z_start].biome_id = chunk_biome[chunk_index_to_biome_id(x % 16, z % 16)]
+                    self.z_start].biome_id = chunk_biomes[(x % 16) * 16 + (z % 16)]
 
     def find_waterways(self, level):
         """
@@ -222,7 +222,3 @@ class Surface(object):
             row.append("|")
             print("  ".join(row))
         print("| " + "".join([" + " for _ in range(self.x_length)]) + " |")
-
-# coverts id returned by chunk to biome id
-def chunk_index_to_biome_id(x, z):
-    return 255 - ((15 - x) + (15 - z) * 16)
