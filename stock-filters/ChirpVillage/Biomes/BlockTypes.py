@@ -65,7 +65,14 @@ blocks = {
     'Dark Oak Door Block': (197, 0),
     'White Glazed Terracotta': (235, 0),
     'Gray Glazed Terracotta': (242, 0),
-    'Black Glazed Terracotta': (250, 0)
+    'Black Glazed Terracotta': (250, 0),
+    'Bed': (26, 0),
+    'Chest': (54, 4),
+    'Bookshelf': (47, 0),
+    'Torch': (50, 0),
+    'Furnace': (61, 4),
+    'Crafting Table': (58, 0),
+    'Ladder': (65, 2),
 }
 
 # Blocks which sit ontop of the surface ie. Grass, Trees, Mushrooms etc

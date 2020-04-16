@@ -78,8 +78,8 @@ class Surface(object):
         :return: height (y-value) of the first ground block before air.
         """
         print("get_height")
-        top = self.y_start + 40
-        bottom = self.y_start - 40
+        top = self.y_start + 60
+        bottom = self.y_start - 60
         y = self.y_start  # Start at halfway.
         found = False
         while not found:

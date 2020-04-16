@@ -58,7 +58,7 @@ def perform(level, box, options):
             building = Builder.LinearFarmLot()
         else:
             building = Builder.DecoratedBuilding()
-        building.construct(level, (building_lot[0], building_lot[1]), (surface.to_real_x(door[0]), surface.to_real_z(door[1])), surface)
+        building.construct(level, (building_lot[0], building_lot[1]), (door[0], door[1]), surface)
 
 
 # This is a slightly modified version of a schematic reader function found at:
