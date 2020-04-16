@@ -56,10 +56,13 @@ def construct_pillars(level, coords, biome, height):
     for y in range(height, 0, -1):
         for x in [minx, maxx-1]:
             for z in [minz, maxz-1]:
-                if y < miny and level.blockAt(x, y-2, z) in surface_blocks:
-                    return 
-                utilityFunctions.setBlock(
-                    level, pillar_block, x, y, z)
+                print(y)
+                print "block"
+                print(level.blockAt(x, y, z))
+                block = level.blockAt(x, y, z)
+                if block in surface_blocks or block == 9:
+                    utilityFunctions.setBlock(                
+                        level, pillar_block, x, y, z)
                 
 def place_door(level, coords, biome, door_coords):
     minx, minz, miny, maxx, maxz = get_coords(coords)
