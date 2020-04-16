@@ -64,6 +64,8 @@ def construct_pillars(level, coords, biome, height):
 def place_door(level, coords, biome, door_coords):
     minx, minz, miny, maxx, maxz = get_coords(coords)
     door_block = BlockUtils.get_door_block(biome)
+    print "door coords:"
+    print(door_coords)
     # Place door
     utilityFunctions.setBlock(
         level, door_block, door_coords[0], miny+1, door_coords[1])
@@ -323,9 +325,17 @@ class DecoratedBuilding():
         biome = block.biome_id
         hedge_block =  BlockUtils.get_hedge_block(biome)
         new_coords = shrink_building_lot(coords, miny)
-        door_coords = (door_coords[0]-1, door_coords[1]-1)
+        if door_coords[0] > minx:
+            door_x = door_coords[0]-1
+        else:
+            door_x = door_coords[0]+1
+        if door_coords[1] > minz:
+            door_z = door_coords[1]-1
+        else:
+            door_z = door_coords[1]+1
+        new_door_coords = (door_x, door_z)
         building = BasicBuilding()
-        building.construct(level, new_coords, door_coords, surface)
+        building.construct(level, new_coords, new_door_coords, surface)
         # ring basic building in hedge
         minx = surface.to_real_x(minx)
         minz = surface.to_real_z(minz)
@@ -334,8 +344,18 @@ class DecoratedBuilding():
         for x in range(minx, maxx):
             for z in range(minz, maxz):
                 if x == maxx-1 or z == maxz-1 or x == minx or z == minz:
-                    if x != surface.to_real_x(door_coords[0]+1) or z != surface.to_real_x(door_coords[1]+1):
+                    if x != surface.to_real_x(door_coords[0]) or z != surface.to_real_z(door_coords[1]):
                         utilityFunctions.setBlock(level, hedge_block, x, miny+1, z)
+                    else:
+                        # Remove hedges around door to ensure there is an entrance
+                        if level.blockAt(x+1, miny+1, z) == hedge_block[0]:
+                            utilityFunctions.setBlock(level, blocks['Air'], x+1, miny+1, z)
+                        if level.blockAt(x, miny+1, z+1) == hedge_block[0]:
+                            utilityFunctions.setBlock(level, blocks['Air'], x, miny+1, z+1)
+                        if level.blockAt(x-1, miny+1, z) == hedge_block[0]:
+                            utilityFunctions.setBlock(level, blocks['Air'], x-1, miny+1, z)
+                        if level.blockAt(x, miny+1, z-1) == hedge_block[0]:
+                            utilityFunctions.setBlock(level, blocks['Air'], x, miny+1, z-1)
 
 class LinearFarmLot():
 
