@@ -41,7 +41,7 @@ class Surface(object):
         for i in range(self.x_length):
             for j in range(self.z_length):
                 block = self.surface_map[i][j]
-                block_type = level.blockAt(self.to_real_x(i), block.height-1, self.to_real_z(j))
+                block_type = level.blockAt(self.to_real_x(i), block.height, self.to_real_z(j))
                 if block_type in water_blocks:
                     print("Found Water")
                     block.is_water = True
