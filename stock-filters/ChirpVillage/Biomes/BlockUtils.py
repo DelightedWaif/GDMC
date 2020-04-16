@@ -56,18 +56,3 @@ def get_soil_block(biome=1):
 def get_bridge_block(biome=1):
     biomeName = get_biome_name(biome)
     return biomeSettings[biomeName]['bridge']
-
-# adds biome id's to all blocks in a provided surface object
-# works by collecting chunk index from each level chunk, converting to biome id
-# and adding that to surface
-def calculate_biomes_on_surface(level, surface):
-    for x in range(surface.x_start, surface.x_end):
-        for z in range(surface.z_start, surface.z_end):
-            chunk = level.getChunk(x / 16, z / 16)
-            chunkBiomeData = chunk.root_tag["Level"]["Biomes"].value
-            surface.surface_map[x - surface.x_start][z -
-                surface.z_start].biome_id = chunkBiomeData[chunk_index_to_biome_id(x % 16, z % 16)]
-
-# coverts id returned by chunk to biome id
-def chunk_index_to_biome_id(x, z):
-    return 255 - ((15 - x) + (15 - z) * 16)
