@@ -56,9 +56,6 @@ def construct_pillars(level, coords, biome, height):
     for y in range(height, 0, -1):
         for x in [minx, maxx-1]:
             for z in [minz, maxz-1]:
-                print(y)
-                print "block"
-                print(level.blockAt(x, y, z))
                 block = level.blockAt(x, y, z)
                 if block in surface_blocks or block == 9:
                     utilityFunctions.setBlock(                
