@@ -13,7 +13,9 @@ biomeSettings = {
         "beam": blocks['Oak Wood'],
         'hedge': blocks['Oak Leaves'],
         'roof': blocks['Stone Bricks'],
-        'crop': blocks['Wheat']
+        'crop': blocks['Wheat'],
+        'soil': blocks['Dirt'],
+        'bridge': blocks['Oak Wood Planks']
     },
     "Desert": {
         "wall": blocks['Chiseled Sandstone'], 
@@ -25,7 +27,9 @@ biomeSettings = {
         "beam": blocks['Smooth Sandstone'],
         'hedge': blocks['Cactus'],
         'roof': blocks['Sandstone'],
-        'crop': blocks['Cactus']
+        'crop': blocks['Cactus'],
+        'soil': blocks['Sand'],
+        'bridge': blocks['Chiseled Sandstone']
     },
     "Forest": {
         "wall": blocks['Oak Wood Planks'],
@@ -37,7 +41,9 @@ biomeSettings = {
         "beam": blocks['Oak Wood'],
         'hedge': blocks['Oak Leaves'],
         'roof': blocks['Stone Bricks'],
-        'crop': blocks['Wheat']
+        'crop': blocks['Wheat'],
+        'soil': blocks['Dirt'],
+        'bridge': blocks['Oak Wood Planks']
     },
     "Jungle": {
         "wall": blocks['Jungle Wood Planks'],
@@ -49,7 +55,9 @@ biomeSettings = {
         "beam": blocks['Jungle Wood'],
         'hedge': blocks['Jungle Leaves'],
         'roof': blocks['Mossy Stone Bricks'],
-        'crop': blocks['Wheat']
+        'crop': blocks['Wheat'],
+        'soil': blocks['Dirt'],
+        'bridge': blocks['Jungle Wood Planks']
     },
     "Taiga": {
         "wall": blocks['Spruce Wood Planks'],
@@ -61,7 +69,9 @@ biomeSettings = {
         "beam": blocks['Spruce Wood'],
         'hedge': blocks['Spruce Leaves'],
         'roof': blocks['Stone Bricks'],
-        'crop': blocks['Potatoes']
+        'crop': blocks['Potatoes'],
+        'soil': blocks['Dirt'],
+        'bridge': blocks['Spruce Wood Planks']
     },
     "Swamp": {
         "wall": blocks['Oak Wood Planks'],
@@ -73,19 +83,23 @@ biomeSettings = {
         "beam": blocks['Oak Wood'],
         'hedge': blocks['Oak Leaves'],
         'roof': blocks['Stone Bricks'],
-        'crop': blocks['Potatoes']
+        'crop': blocks['Potatoes'],
+        'soil': blocks['Dirt'],
+        'bridge': blocks['Oak Wood Planks']
     },
     "Birch Forest": {
         "wall": blocks['Birch Wood Planks'],
         "fence": blocks['Birch Fence'],
         "floor": blocks['Stone Bricks'],
-        "road": blocks['Bricks'],
+        "road": blocks['Stone Bricks'],
         "door": blocks['Birch Door Block'],
         'window': blocks['Glass Pane'],
         "beam": blocks['Birch Wood'],
         'hedge': blocks['Birch Leaves'],
         'roof': blocks['Stone Bricks'],
-        'crop': blocks['Carrots']
+        'crop': blocks['Carrots'],
+        'soil': blocks['Dirt'],
+        'bridge': blocks['Birch Wood Planks']
     },
     "Dark Forest": {
         "wall": blocks['Dark Oak Wood Planks'],
@@ -97,7 +111,9 @@ biomeSettings = {
         "beam": blocks['Dark Oak Wood'],
         'hedge': blocks['Dark Oak Leaves'],
         'roof': blocks['Stone Bricks'],
-        'crop': blocks['Wheat']
+        'crop': blocks['Wheat'],
+        'soil': blocks['Dirt'],
+        'bridge': blocks['Dark Oak Wood Planks']
     },
     "River Beach": {
         "wall": blocks['Oak Wood Planks'],
@@ -109,7 +125,9 @@ biomeSettings = {
         "beam": blocks['Oak Wood'],
         'hedge': blocks['Sugar Cane'],
         'roof': blocks['Stone Bricks'],
-        'crop': blocks['Sugar Cane']
+        'crop': blocks['Sugar Cane'],
+        'soil': blocks['Dirt'],
+        'bridge': blocks['Oak Wood Planks']
     },
     "Ice": {
         "wall": blocks['Quartz Block'],
@@ -121,19 +139,23 @@ biomeSettings = {
         "beam": blocks['Piller Quartz Block'],
         'hedge': blocks['Snow Block'],
         'roof': blocks['Quartz Block'],
-        'crop': blocks['Potatoes']
+        'crop': blocks['Potatoes'],
+        'soil': blocks['Dirt'],
+        'bridge': blocks['Piller Quartz Block']
     },
     "Mountains": {
-        "wall": blocks['Oak Wood Planks'],
+        "wall": blocks['Bricks'],
         "fence": blocks['Oak Fence'],
         "floor": blocks['Stone Bricks'],
-        "road": blocks['Moss Stone'],
+        "road": blocks['Stone Bricks'],
         "door": blocks['Oak Door Block'],
         'window': blocks['Glass Pane'],
         "beam": blocks['Oak Wood'],
         'hedge': blocks['Oak Leaves'],
-        'roof': blocks['Mossy Stone Bricks'],
-        'crop': blocks['Wheat']
+        'roof': blocks['Stone Bricks'],
+        'crop': blocks['Wheat'],
+        'soil': blocks['Dirt'],
+        'bridge': blocks['Mossy Stone Bricks']
     },
     "Mushroom": {
         "wall": blocks['Oak Wood Planks'],
@@ -145,7 +167,9 @@ biomeSettings = {
         "beam": blocks['Hardened Clay'],
         'hedge': blocks['Red Mushroom'],
         'roof': blocks['Polished Granite'],
-        'crop': blocks['Red Mushroom']
+        'crop': blocks['Red Mushroom'],
+        'soil': blocks['Dirt'],
+        'bridge': blocks['Oak Wood Planks']
     },
 	"Savanna": {
         "wall": blocks['Acacia Wood Planks'],
@@ -157,7 +181,9 @@ biomeSettings = {
         "beam": blocks['Acacia Wood'],
         'hedge': blocks['Acacia Leaves'],
         'roof': blocks['Stone Bricks'],
-        'crop': blocks['Wheat']
+        'crop': blocks['Wheat'],
+        'soil': blocks['Dirt'],
+        'bridge': blocks['Acacia Wood Planks']
     },
     "Badlands": {
         "wall": blocks['White Glazed Terracotta'],
@@ -169,7 +195,9 @@ biomeSettings = {
         "beam": blocks['Black Glazed Terracotta'],
         'hedge': blocks['Cactus'],
         'roof': blocks['Gray Glazed Terracotta'],
-        'crop': blocks['Cactus']
+        'crop': blocks['Cactus'],
+        'soil': blocks['Red Sand'],
+        'bridge': blocks['Yellow Glazed Terracotta']
     },
     "Aquatic": {
         "wall": blocks['Oak Wood Planks'],
@@ -181,6 +209,8 @@ biomeSettings = {
         "beam": blocks['Oak Wood'],
         'hedge': blocks['Oak Leaves'],
         'roof': blocks['Mossy Stone Bricks'],
-        'crop': blocks['Sugar Cane']
+        'crop': blocks['Sugar Cane'],
+        'soil': blocks['Sand'],
+        'bridge': blocks['Oak Wood Planks']
     }
 }

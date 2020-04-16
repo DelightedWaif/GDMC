@@ -188,7 +188,7 @@ def construct_farm(level, coords, biome):
     minx, minz, miny, maxx, maxz = get_coords(coords)
     water_block = blocks["Still Water"]
     crop_block = BlockUtils.get_crop_block(biome)
-    dirt_block = blocks["Dirt"]
+    soil_block = BlockUtils.get_soil_block(biome)
     wall_block = BlockUtils.get_wall_block(biome)
 
     for x in range(minx, maxx):
@@ -203,12 +203,12 @@ def construct_farm(level, coords, biome):
                     utilityFunctions.setBlock(
                         level, crop_block, x, miny + 1, z)
                     utilityFunctions.setBlock(
-                        level, dirt_block, x, miny, z)
+                        level, soil_block, x, miny, z)
                 else:
                     utilityFunctions.setBlock(
                         level, water_block, x, miny, z)
                 utilityFunctions.setBlock(
-                    level, dirt_block, x, miny - 1, z)
+                    level, soil_block, x, miny - 1, z)
 
 """Building Classes"""
 class BasicBuilding:

@@ -31,7 +31,7 @@ class PathGenerator:
     def block_is_free(self, node):
         x, z = node
         block = self.surface.surface_map[x][z]
-        return block.type == Block.UNASSIGNED or block.type == Block.PATH or block.type == Block.DOOR
+        return block.type == Block.UNASSIGNED or block.type == Block.PATH or block.type == Block.DOOR and not block.is_lava
 
     # Returns whether the cell is within the grid
     def block_in_grid(self, block):
@@ -84,19 +84,34 @@ class PathGenerator:
             for edge in path_edges:
                 block = self.surface.surface_map[edge[0]][edge[1]]
                 block.type = Block.PATH
+                
+                # Set path block in level
                 level_block = BlockUtils.get_road_block(block.biome_id)
-                utilityFunctions.setBlock(self.level, level_block, self.surface.to_real_x(block.x), block.height, self.surface.to_real_z(block.z))
+                bridge_block = BlockUtils.get_bridge_block(block.biome_id)
+                if block.is_water:
+                  utilityFunctions.setBlock(self.level, bridge_block, self.surface.to_real_x(block.x), block.height, self.surface.to_real_z(block.z))
+                else:
+                    utilityFunctions.setBlock(self.level, level_block, self.surface.to_real_x(block.x), block.height, self.surface.to_real_z(block.z))
+
+                # Remove all blocks above paths
                 above = block.height + 1
                 while self.level.blockAt(self.surface.to_real_x(block.x), above, self.surface.to_real_z(block.z)) != 0:
                     utilityFunctions.setBlock(self.level, (0, 0), self.surface.to_real_x(block.x), above, self.surface.to_real_z(block.z))
                     above += 1
 
+            # Set path block in level
             level_block = BlockUtils.get_road_block(block.biome_id)
-            utilityFunctions.setBlock(self.level, level_block, self.surface.to_real_x(block.x), block.height, self.surface.to_real_z(block.z))
-            above = block.height + 1
+            bridge_block = BlockUtils.get_bridge_block(block.biome_id)
+            if block.is_water:
+                utilityFunctions.setBlock(self.level, bridge_block, self.surface.to_real_x(block.x), block.height, self.surface.to_real_z(block.z))
+            else:
+                utilityFunctions.setBlock(self.level, level_block, self.surface.to_real_x(block.x), block.height, self.surface.to_real_z(block.z))
+
+            # Remove all blocks above paths
             while self.level.blockAt(self.surface.to_real_x(x), above, self.surface.to_real_z(z)) != 0:
                 utilityFunctions.setBlock(self.level, (0, 0), self.surface.to_real_x(block.x), above, self.surface.to_real_z(block.z))
                 above += 1
+
             current = self.add(current, path[current])
             direction = path[current]
 

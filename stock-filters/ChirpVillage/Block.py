@@ -24,3 +24,5 @@ class Block(object):
         self.steepness = -1  # undefined by default, set in surface constructor
         self.type = type
         self.biome_id = -1  # undefined by default, set in calculateBiomeMap of BlockUtils
+        self.is_water = False
+        self.is_lava = False
