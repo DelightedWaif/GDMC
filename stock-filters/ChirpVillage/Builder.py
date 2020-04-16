@@ -64,8 +64,6 @@ def construct_pillars(level, coords, biome, height):
 def place_door(level, coords, biome, door_coords):
     minx, minz, miny, maxx, maxz = get_coords(coords)
     door_block = BlockUtils.get_door_block(biome)
-    print "door coords:"
-    print(door_coords)
     # Place door
     utilityFunctions.setBlock(
         level, door_block, door_coords[0], miny+1, door_coords[1])
