@@ -100,18 +100,18 @@ class Surface(object):
         :param level: level object which stores the worlds blocks and block data
         :return: height (y-value) of the first ground block before air.
         """
-        print("get_height")
+        # print("get_height")
         top = self.y_start + 40
         bottom = self.y_start - 40
         y = self.y_start  # Start at halfway.
         found = False
         while not found:
-            print("y,bottom,top", str(y), str(bottom), str(top))
+            # print("y,bottom,top", str(y), str(bottom), str(top))
             block = level.blockAt(self.to_real_x(x), y, self.to_real_z(z))
-            print("block is: ", str(block))
+            # print("block is: ", str(block))
             if block in surface_blocks:
                 neighbour_below = level.blockAt(self.to_real_x(x), y - 1, self.to_real_z(z))
-                print("neighbour_below is: ", str(neighbour_below))
+                # print("neighbour_below is: ", str(neighbour_below))
                 if neighbour_below not in surface_blocks:
                     return y-1
                 else:
@@ -119,7 +119,7 @@ class Surface(object):
                     y = y - int(round(float(y - bottom)/2))
             else:
                 neighbour_above = level.blockAt(self.to_real_x(x), y + 1, self.to_real_z(z))
-                print("neighbour_above is: ", str(neighbour_above))
+                # print("neighbour_above is: ", str(neighbour_above))
                 if neighbour_above in surface_blocks:
                     return y+1
                 else:
