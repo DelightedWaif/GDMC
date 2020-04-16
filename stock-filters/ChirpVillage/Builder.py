@@ -2,6 +2,7 @@ import utilityFunctions
 import RandUtils
 from Biomes import BlockUtils
 from BlockTypes import blocks
+from Surface import surface_blocks
 
 
 """Utils for buildings"""
@@ -52,9 +53,11 @@ def construct_pointed_roof(level, coords, biome, height):
 def construct_pillars(level, coords, biome, height):
     minx, minz, miny, maxx, maxz = get_coords(coords)
     pillar_block = BlockUtils.get_beam_block(biome)
-    for y in range(0, height):
+    for y in range(height, 0, -1):
         for x in [minx, maxx-1]:
             for z in [minz, maxz-1]:
+                if y < miny and level.blockAt(x, y-2, z) in surface_blocks:
+                    return 
                 utilityFunctions.setBlock(
                     level, pillar_block, x, y, z)
                 
