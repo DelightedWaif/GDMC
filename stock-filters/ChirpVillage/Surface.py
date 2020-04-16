@@ -27,14 +27,27 @@ class Surface(object):
         self.surface_map = self.init_surface_map(level)
         self.surface_map = self.calc_steepness()
         self.surface_map = self.find_waterways(level)
+        self.calculate_biomes_on_surface(level)
         self.door_blocks = []
+
+    def calculate_biomes_on_surface(self, level):
+        """
+        adds biome id's to all blocks in a provided surface object
+        works by collecting chunk index from each level chunk, converting to biome id
+        and adding that to surface
+        """
+        for x in range(self.x_start, self.x_end):
+            for z in range(self.z_start, self.z_end):
+                chunk = level.getChunk(x / 16, z / 16)
+                chunk_biomes = chunk.root_tag["Level"]["Biomes"].value
+                self.surface_map[x - self.x_start][z -
+                    self.z_start].biome_id = chunk_biomes[(x % 16) * 16 + (z % 16)]
 
     def find_waterways(self, level):
         """
         find water systems in the surface_map.
         :return: new_surface_map with corrected block types
         """
-        print("find_waterways")
         new_surface_map = copy(self.surface_map)
         water_blocks = [8,9]
         lava_blocks = [10,11]

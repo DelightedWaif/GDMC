@@ -37,9 +37,6 @@ def perform(level, box, options):
     surface.visualize_heights()
     surface.visualize_steepness()
 
-    # Biome Adaptibility
-    BlockUtils.calculate_biomes_on_surface(level, surface)
-
     # Path Generation
     path_generator = PathGenerator(surface, level)
     path_generator.generate_paths()
