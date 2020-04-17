@@ -44,9 +44,6 @@ def perform(level, box, options):
     # Building Generation
     for door, building_lot in zip(yard_generator.building_door_blocks, yard_generator.building_coords):
         rand = rand_range(door[0], door[1], 100, 0)
-        print(rand)
-        print(building_lot[0], building_lot[1])
-        print(door)
         if rand < 20:
             building = Builder.BasicBuilding()
         elif rand < 40:
