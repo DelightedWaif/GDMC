@@ -27,21 +27,34 @@ class Surface(object):
         self.surface_map = self.init_surface_map(level)
         self.surface_map = self.calc_steepness()
         self.surface_map = self.find_waterways(level)
+        self.calculate_biomes_on_surface(level)
         self.door_blocks = []
+
+    def calculate_biomes_on_surface(self, level):
+        """
+        adds biome id's to all blocks in a provided surface object
+        works by collecting chunk index from each level chunk, converting to biome id
+        and adding that to surface
+        """
+        for x in range(self.x_start, self.x_end):
+            for z in range(self.z_start, self.z_end):
+                chunk = level.getChunk(x / 16, z / 16)
+                chunk_biomes = chunk.root_tag["Level"]["Biomes"].value
+                self.surface_map[x - self.x_start][z -
+                    self.z_start].biome_id = chunk_biomes[(x % 16) * 16 + (z % 16)]
 
     def find_waterways(self, level):
         """
         find water systems in the surface_map.
         :return: new_surface_map with corrected block types
         """
-        print("find_waterways")
         new_surface_map = copy(self.surface_map)
         water_blocks = [8,9]
         lava_blocks = [10,11]
         for i in range(self.x_length):
             for j in range(self.z_length):
                 block = self.surface_map[i][j]
-                block_type = level.blockAt(self.to_real_x(i), block.height-1, self.to_real_z(j))
+                block_type = level.blockAt(self.to_real_x(i), block.height, self.to_real_z(j))
                 if block_type in water_blocks:
                     print("Found Water")
                     block.is_water = True
@@ -101,9 +114,14 @@ class Surface(object):
         :return: height (y-value) of the first ground block before air.
         """
         # print("get_height")
-        top = self.y_start + 40
-        bottom = self.y_start - 40
-        y = self.y_start  # Start at halfway.
+        if self.y_start > self.y_end:
+            top = self.y_start + 60
+            bottom = self.y_end - 60
+            y = self.y_start - (abs(self.y_start - self.y_end) / 2)  # Start at halfway.
+        else:
+            top = self.y_end + 60
+            bottom = self.y_start - 60
+            y = self.y_end - (abs(self.y_start - self.y_end)/2)  # Start at halfway.
         found = False
         while not found:
             # print("y,bottom,top", str(y), str(bottom), str(top))
@@ -118,13 +136,6 @@ class Surface(object):
                     top = y
                     y = y - int(round(float(y - bottom)/2))
             else:
-                # neighbour_above = level.blockAt(self.to_real_x(x), y + 1, self.to_real_z(z))
-                # # print("neighbour_above is: ", str(neighbour_above))
-                # if neighbour_above in surface_blocks:
-                #     return y+1
-                # else:
-                #     bottom = y
-                #     y = y + int(round(float(top - y)/2))
                 neighbour_above = level.blockAt(self.to_real_x(x), y + 1, self.to_real_z(z))
                 # print("neighbour_above is: ", str(neighbour_above))
                 if neighbour_above in surface_blocks:

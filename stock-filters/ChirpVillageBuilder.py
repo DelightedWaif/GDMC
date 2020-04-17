@@ -37,9 +37,6 @@ def perform(level, box, options):
     surface.visualize_heights()
     surface.visualize_steepness()
 
-    # Biome Adaptibility
-    BlockUtils.calculate_biomes_on_surface(level, surface)
-
     # Path Generation
     path_generator = PathGenerator(surface, level)
     path_generator.generate_paths()
@@ -50,15 +47,17 @@ def perform(level, box, options):
         print(rand)
         print(building_lot[0], building_lot[1])
         print(door)
-        if rand < 25:
+        if rand < 20:
             building = Builder.BasicBuilding()
-        elif rand < 50:
+        elif rand < 40:
             building = Builder.MultiStoryBuilding()
-        elif rand < 75:
+        elif rand < 60:
             building = Builder.LinearFarmLot()
-        else:
+        elif rand < 80:
             building = Builder.DecoratedBuilding()
-        building.construct(level, (building_lot[0], building_lot[1]), (surface.to_real_x(door[0]), surface.to_real_z(door[1])), surface)
+        else:
+            building = Builder.Church()
+        building.construct(level, (building_lot[0], building_lot[1]), (door[0], door[1]), surface)
 
 
 # This is a slightly modified version of a schematic reader function found at:
