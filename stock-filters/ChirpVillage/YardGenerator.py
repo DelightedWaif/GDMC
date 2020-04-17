@@ -23,7 +23,6 @@ class YardGenerator(object):
     MIN_BUILDING_AREA = 50
 
     def __init__(self, level, box, surface):
-        print("YardGenerator.__init__")
         # CA CONFIG
         self.iter_num = 5
         self.death_limit = 4
@@ -50,7 +49,6 @@ class YardGenerator(object):
             - We split x axis first, then for each x segment we split the z axis to ensure unequal grid cells
         :returns: a list of tuples of coords to the corners of each partition chunk (eg. [((x_start,z_start),(x_end,z_end))])
         """
-        print("get_partitions")
         partitions = []
         x_splits = self.calc_x_splits()
         curr_x = 3
@@ -69,7 +67,6 @@ class YardGenerator(object):
             - Uses a depth first algorithm to create splitting lines.
         :returns: a list of x values to specify the vertical splitting line.
         """
-        print("calc_x_splits")
         partition_lines = []
         segments = []
         if self.x_length/2 > self.MIN_YARD_SIZE[0]:
@@ -96,7 +93,6 @@ class YardGenerator(object):
         :returns: a list of z values to specify the horizontal splitting lines for the current vertical offset
                 within the surface map.
         """
-        print("calc_z_splits")
         partition_lines = []
         segments = []
         if self.z_length/2 > self.MIN_YARD_SIZE[1]:
@@ -120,7 +116,6 @@ class YardGenerator(object):
         Generate yards, building lots, path doors, building doors and place them within the self.surface member
         :returns: void (sets self.surface)
         """
-        print("generate_yards")
         new_surface = copy(self.surface)
         probability_generate_yard = 0.90  # Chance of partition being a yard
         for p in self.partitions:
@@ -155,7 +150,6 @@ class YardGenerator(object):
         Run the yard generating cellular automata within the partition on the surface.
         :returns: Surface obj new_surface that CA has ran on
         """
-        print("run_ca_on_partition")
         new_surface = self.init_surface(new_surface, partition[0][0], partition[1][0], partition[0][1], partition[1][1])
         new_surface = self.do_ca(new_surface, partition[0][0], partition[1][0], partition[0][1], partition[1][1])
         return new_surface
@@ -167,7 +161,6 @@ class YardGenerator(object):
         :params x_start, x_end, z_start, z_end: the current partition bounds
         :returns: a modified new_surface that has been initialized for CA iterations
         """
-        print("init_surface")
         probability_spawning_yard_block = 0.40
         for i in range(x_start, x_end):
             for j in range(z_start, z_end):
@@ -183,7 +176,6 @@ class YardGenerator(object):
         :params x_start, x_end, z_start, z_end: the current partition bounds
         :returns: a modified new_surface that has been modified by the CA
         """
-        print("do_ca")
         for _ in range(self.iter_num):
             new_surface = self.do_iteration_step(new_surface, x_start, x_end, z_start, z_end)
         return new_surface
@@ -195,7 +187,6 @@ class YardGenerator(object):
         :params x_start, x_end, z_start, z_end: the current partition bounds
         :returns: a modified new_surface that has been modified by the CA iteration step
         """
-        print("do_iteration_step")
         for i in range(x_start, x_end):
             for j in range(z_start, z_end):
                 num_alive_neighbours = self.count_neighbours(i, j, x_start, x_end, z_start, z_end, Block.YARD)
@@ -239,7 +230,6 @@ class YardGenerator(object):
         :returns: a modified new_surface that has the building lots set
             (also fills the self.building_coords list with tuples of coords to the corners of the building)
         """
-        print("generate_buildings")
 
         x_start, x_end, z_start, z_end = self.get_partition_bounds(partition)
 
@@ -283,7 +273,6 @@ class YardGenerator(object):
         :params corners: the current building lot corners
         :returns: a bool to indicate validness of the corners (is the building lot within the yard)
         """
-        print("are_valid_corners")
         valid = True
         if (corners[1][0] - corners[0][0]) * (corners[1][1] - corners[0][1]) > YardGenerator.MAX_BUILDING_AREA:
             # if building lot area is too big, building lot also not valid
@@ -302,7 +291,6 @@ class YardGenerator(object):
         :returns: a modified new_surface that has the door cells set
             (also fills the self.doors list with coords to the door block)
         """
-        print("generate_door_blocks")
 
         x_start, x_end, z_start, z_end = self.get_partition_bounds(partition)
 
@@ -348,7 +336,6 @@ class YardGenerator(object):
         :returns: a modified new_surface that has the building door cells set
             (also fills the self.building_doors list with coords to the door block)
         """
-        print("generate_building_door_blocks")
 
         x_start, x_end, z_start, z_end = self.get_partition_bounds(partition)
 

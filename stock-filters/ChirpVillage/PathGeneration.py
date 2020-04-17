@@ -99,7 +99,7 @@ class PathGenerator:
             for edge in path_edges:
                 edge_block = self.surface.surface_map[edge[0]][edge[1]]
                 edge_block.type = Block.PATH
-                edge_block.height = new_height
+                # edge_block.height = new_height
 
                 # Set path block in level
                 level_block = BlockUtils.get_road_block(edge_block.biome_id)
@@ -141,7 +141,6 @@ if __name__ == "__main__":
     yard_generator = YardGenerator(level, box, surface)
     yard_generator.generate_yards()
     surface = yard_generator.surface
-    print(surface.door_blocks)
     path_generator = PathGenerator(surface, level)
     path_generator.generate_paths()
     surface.visualize()
