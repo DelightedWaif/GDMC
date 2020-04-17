@@ -54,7 +54,7 @@ class Surface(object):
         for i in range(self.x_length):
             for j in range(self.z_length):
                 block = self.surface_map[i][j]
-                block_type = level.blockAt(self.to_real_x(i), block.height-1, self.to_real_z(j))
+                block_type = level.blockAt(self.to_real_x(i), block.height, self.to_real_z(j))
                 if block_type in water_blocks:
                     print("Found Water")
                     block.is_water = True
@@ -114,8 +114,8 @@ class Surface(object):
         :return: height (y-value) of the first ground block before air.
         """
         print("get_height")
-        top = self.y_start + 40
-        bottom = self.y_start - 40
+        top = self.y_start + 60
+        bottom = self.y_start - 60
         y = self.y_start  # Start at halfway.
         found = False
         while not found:
@@ -134,7 +134,7 @@ class Surface(object):
                 neighbour_above = level.blockAt(self.to_real_x(x), y + 1, self.to_real_z(z))
                 print("neighbour_above is: ", str(neighbour_above))
                 if neighbour_above in surface_blocks:
-                    return y+1
+                    return y
                 else:
                     bottom = y
                     y = y + int(round(float(top - y)/2))

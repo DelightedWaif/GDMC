@@ -192,7 +192,7 @@ class YardGenerator(object):
                     else:
                         new_surface.surface_map[i][j].type = Block.YARD  # cell stays alive
                 else:
-                    if num_alive_neighbours > self.birth_limit and not new_surface.surface_map[i][j].is_water and not new_surface.surface_map[i][j].is_lava:
+                    if num_alive_neighbours > self.birth_limit and not new_surface.surface_map[i][j].is_lava:
                         new_surface.surface_map[i][j].type = Block.YARD  # cell dies
                     else:
                         new_surface.surface_map[i][j].type = Block.UNASSIGNED  # cell stays alive
