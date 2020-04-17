@@ -14,7 +14,7 @@ biomeSettings = {
         'hedge': blocks['Oak Leaves'],
         'roof': blocks['Stone Bricks'],
         'crop': blocks['Wheat'],
-        'soil': blocks['Dirt'],
+        'soil': blocks['Farmland'],
         'bridge': blocks['Oak Wood Planks']
     },
     "Desert": {
@@ -42,7 +42,7 @@ biomeSettings = {
         'hedge': blocks['Oak Leaves'],
         'roof': blocks['Stone Bricks'],
         'crop': blocks['Wheat'],
-        'soil': blocks['Dirt'],
+        'soil': blocks['Farmland'],
         'bridge': blocks['Oak Wood Planks']
     },
     "Jungle": {
@@ -56,7 +56,7 @@ biomeSettings = {
         'hedge': blocks['Jungle Leaves'],
         'roof': blocks['Mossy Stone Bricks'],
         'crop': blocks['Wheat'],
-        'soil': blocks['Dirt'],
+        'soil': blocks['Farmland'],
         'bridge': blocks['Jungle Wood Planks']
     },
     "Taiga": {
@@ -70,7 +70,7 @@ biomeSettings = {
         'hedge': blocks['Spruce Leaves'],
         'roof': blocks['Stone Bricks'],
         'crop': blocks['Potatoes'],
-        'soil': blocks['Dirt'],
+        'soil': blocks['Farmland'],
         'bridge': blocks['Spruce Wood Planks']
     },
     "Swamp": {
@@ -84,7 +84,7 @@ biomeSettings = {
         'hedge': blocks['Oak Leaves'],
         'roof': blocks['Stone Bricks'],
         'crop': blocks['Potatoes'],
-        'soil': blocks['Dirt'],
+        'soil': blocks['Farmland'],
         'bridge': blocks['Oak Wood Planks']
     },
     "Birch Forest": {
@@ -98,7 +98,7 @@ biomeSettings = {
         'hedge': blocks['Birch Leaves'],
         'roof': blocks['Stone Bricks'],
         'crop': blocks['Carrots'],
-        'soil': blocks['Dirt'],
+        'soil': blocks['Farmland'],
         'bridge': blocks['Birch Wood Planks']
     },
     "Dark Forest": {
@@ -112,7 +112,7 @@ biomeSettings = {
         'hedge': blocks['Dark Oak Leaves'],
         'roof': blocks['Stone Bricks'],
         'crop': blocks['Wheat'],
-        'soil': blocks['Dirt'],
+        'soil': blocks['Farmland'],
         'bridge': blocks['Dark Oak Wood Planks']
     },
     "River Beach": {
@@ -126,7 +126,7 @@ biomeSettings = {
         'hedge': blocks['Sugar Cane'],
         'roof': blocks['Stone Bricks'],
         'crop': blocks['Sugar Cane'],
-        'soil': blocks['Dirt'],
+        'soil': blocks['Farmland'],
         'bridge': blocks['Oak Wood Planks']
     },
     "Ice": {
@@ -140,7 +140,7 @@ biomeSettings = {
         'hedge': blocks['Snow Block'],
         'roof': blocks['Quartz Block'],
         'crop': blocks['Potatoes'],
-        'soil': blocks['Dirt'],
+        'soil': blocks['Farmland'],
         'bridge': blocks['Piller Quartz Block']
     },
     "Mountains": {
@@ -154,7 +154,7 @@ biomeSettings = {
         'hedge': blocks['Oak Leaves'],
         'roof': blocks['Stone Bricks'],
         'crop': blocks['Wheat'],
-        'soil': blocks['Dirt'],
+        'soil': blocks['Farmland'],
         'bridge': blocks['Mossy Stone Bricks']
     },
     "Mushroom": {
@@ -168,7 +168,7 @@ biomeSettings = {
         'hedge': blocks['Red Mushroom'],
         'roof': blocks['Polished Granite'],
         'crop': blocks['Red Mushroom'],
-        'soil': blocks['Dirt'],
+        'soil': blocks['Farmland'],
         'bridge': blocks['Oak Wood Planks']
     },
 	"Savanna": {
@@ -182,7 +182,7 @@ biomeSettings = {
         'hedge': blocks['Acacia Leaves'],
         'roof': blocks['Stone Bricks'],
         'crop': blocks['Wheat'],
-        'soil': blocks['Dirt'],
+        'soil': blocks['Farmland'],
         'bridge': blocks['Acacia Wood Planks']
     },
     "Badlands": {
@@ -210,7 +210,7 @@ biomeSettings = {
         'hedge': blocks['Oak Leaves'],
         'roof': blocks['Mossy Stone Bricks'],
         'crop': blocks['Sugar Cane'],
-        'soil': blocks['Sand'],
+        'soil': blocks['Farmland'],
         'bridge': blocks['Oak Wood Planks']
     }
 }
