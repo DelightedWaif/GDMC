@@ -12,6 +12,7 @@ class PathGenerator:
         self.level = level
         self.directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
 
+    # Subtract two tuples as if they were vectors
     @staticmethod
     def subtract(x, y):
         if x is None:
@@ -20,6 +21,7 @@ class PathGenerator:
             return x
         return x[0] - y[0], x[1] - y[1]
 
+    # Add two tuples together as if they were vectors
     @staticmethod
     def add(x, y):
         if x is None:
