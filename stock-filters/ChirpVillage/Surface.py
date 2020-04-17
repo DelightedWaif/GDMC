@@ -55,10 +55,8 @@ class Surface(object):
                 block = self.surface_map[i][j]
                 block_type = level.blockAt(self.to_real_x(i), block.height, self.to_real_z(j))
                 if block_type in water_blocks:
-                    #print("Found Water")
                     block.is_water = True
                 elif block_type in lava_blocks:
-                    #print("Found Lava")
                     block.is_lava = True
                 new_surface_map[i][j] = block
         return new_surface_map
