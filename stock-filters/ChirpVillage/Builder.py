@@ -322,10 +322,18 @@ class MultiStoryBuilding():
             if i == 0:
                 door_coords = (surface.to_real_x(door_coords[0]), surface.to_real_z(door_coords[1]))
                 place_door(level, level_coords, biome, door_coords)
+            if i == 1:
+                coords = shrink_building_lot(coords, miny)
+                inside_minx = surface.to_real_x(coords[0][0])
+                inside_minz = surface.to_real_z(coords[0][1])
+                inside_maxx = surface.to_real_x(coords[1][0])
+                inside_maxz = surface.to_real_z(coords[1][1])
+                inside_coords = ((inside_minx, inside_minz, pillar_height-height_offset),(inside_maxx, inside_maxz))
+                place_furniture(level, inside_coords, biome)
             level_coords = ((minx, minz, pillar_height), (maxx, maxz))
             pillar_height += height_offset
         for y in range(miny+1, pillar_height-height_offset+1):
-            utilityFunctions.setBlock(level, blocks['Ladder'], minx+2, y, minz+1)
+            utilityFunctions.setBlock(level, blocks['Ladder'], maxx-2, y, minz+1)
 
 
 
