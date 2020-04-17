@@ -219,7 +219,6 @@ class YardGenerator(object):
         :params type: the Block.type of neighbour we are looking for
         :returns: count of the neighbours of type type
         """
-        print("count_neighbours")
         count = 0
         for i in range(-1, 2, 1):
             for j in range(-1, 2, 1):

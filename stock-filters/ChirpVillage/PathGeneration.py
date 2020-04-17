@@ -3,7 +3,7 @@ from Block import Block
 from YardGenerator import YardGenerator
 import utilityFunctions
 from Biomes import BlockUtils
-
+from Surface import Surface
 
 class PathGenerator:
     def __init__(self, surface, level):
@@ -67,51 +67,66 @@ class PathGenerator:
         # Draw paths
         current = self.add(end, path[end])
         direction = path[end]
+        prev = end
         while current != start:
             # find next in path
             x, z = current
             block = self.surface.surface_map[x][z]
+            previous_block = self.surface.surface_map[prev[0]][prev[1]]
             block.type = Block.PATH
+            steepness = previous_block.height - block.height
+            if steepness > 1:
+                if steepness > 4:
+                    block.height = self.surface.surface_map[prev[0]][prev[1]].height
+                    new_height = self.surface.surface_map[prev[0]][prev[1]].height
+                else:
+                    block.height = self.surface.surface_map[prev[0]][prev[1]].height - 1
+                    new_height = self.surface.surface_map[prev[0]][prev[1]].height - 1
+            elif previous_block.height - block.height < -1:
+                block.height = self.surface.surface_map[prev[0]][prev[1]].height + 1
+                new_height = self.surface.surface_map[prev[0]][prev[1]].height + 1
+            else:
+                new_height = block.height
             # # If path his moving horiziontally, try to widen it by adding blocks above and below it
-            # if (direction == (-1,0) or direction == (1,0)):
-            #     path_edges = [(x, z-1), (x, z+1)]
-            # # If path his moving vertically, try to widen it by adding blocks to the left and to the right of it
-            # elif (direction == (0,-1) or direction == (0,1)):
-            #     path_edges = (x-1, z), (x+1, z)
-            path_edges = [(x, z-1), (x, z+1), (x-1, z), (x+1, z)]
+            if direction == (-1,0) or direction == (1,0):
+                path_edges = [(x, z-1), (x, z+1)]
+            # If path his moving vertically, try to widen it by adding blocks to the left and to the right of it
+            else:
+                path_edges = [(x-1, z), (x+1, z)]
+            # path_edges = [(x, z-1), (x, z+1), (x-1, z), (x+1, z)]
             path_edges = filter(self.block_in_grid, path_edges)
             path_edges = filter(self.block_is_free, path_edges)
             for edge in path_edges:
-                block = self.surface.surface_map[edge[0]][edge[1]]
-                block.type = Block.PATH
-                
-                # Set path block in level
-                level_block = BlockUtils.get_road_block(block.biome_id)
-                bridge_block = BlockUtils.get_bridge_block(block.biome_id)
-                if block.is_water:
-                    utilityFunctions.setBlock(self.level, bridge_block, self.surface.to_real_x(block.x), block.height, self.surface.to_real_z(block.z))
-                else:
-                    utilityFunctions.setBlock(self.level, level_block, self.surface.to_real_x(block.x), block.height, self.surface.to_real_z(block.z))
+                edge_block = self.surface.surface_map[edge[0]][edge[1]]
+                edge_block.type = Block.PATH
+                edge_block.height = new_height
 
+                # Set path block in level
+                level_block = BlockUtils.get_road_block(edge_block.biome_id)
+                bridge_block = BlockUtils.get_bridge_block(edge_block.biome_id)
+                if edge_block.is_water:
+                    utilityFunctions.setBlock(self.level, bridge_block, self.surface.to_real_x(edge_block.x), new_height, self.surface.to_real_z(edge_block.z))
+                else:
+                    utilityFunctions.setBlock(self.level, level_block, self.surface.to_real_x(edge_block.x), new_height, self.surface.to_real_z(edge_block.z))
                 # Remove all blocks above paths
-                above = block.height + 1
-                while self.level.blockAt(self.surface.to_real_x(block.x), above, self.surface.to_real_z(block.z)) != 0:
-                    utilityFunctions.setBlock(self.level, (0, 0), self.surface.to_real_x(block.x), above, self.surface.to_real_z(block.z))
+                above = new_height + 1
+                while self.level.blockAt(self.surface.to_real_x(edge_block.x), above, self.surface.to_real_z(edge_block.z)) != 0:
+                    utilityFunctions.setBlock(self.level, (0, 0), self.surface.to_real_x(edge_block.x), above, self.surface.to_real_z(edge_block.z))
                     above += 1
 
             # Set path block in level
             level_block = BlockUtils.get_road_block(block.biome_id)
             bridge_block = BlockUtils.get_bridge_block(block.biome_id)
             if block.is_water:
-                utilityFunctions.setBlock(self.level, bridge_block, self.surface.to_real_x(block.x), block.height, self.surface.to_real_z(block.z))
+                utilityFunctions.setBlock(self.level, bridge_block, self.surface.to_real_x(block.x), new_height, self.surface.to_real_z(block.z))
             else:
-                utilityFunctions.setBlock(self.level, level_block, self.surface.to_real_x(block.x), block.height, self.surface.to_real_z(block.z))
-
+                utilityFunctions.setBlock(self.level, level_block, self.surface.to_real_x(block.x), new_height, self.surface.to_real_z(block.z))
+            above = new_height + 1
             # Remove all blocks above paths
             while self.level.blockAt(self.surface.to_real_x(x), above, self.surface.to_real_z(z)) != 0:
                 utilityFunctions.setBlock(self.level, (0, 0), self.surface.to_real_x(block.x), above, self.surface.to_real_z(block.z))
                 above += 1
-
+            prev = current
             current = self.add(current, path[current])
             direction = path[current]
 
@@ -121,8 +136,9 @@ if __name__ == "__main__":
     from Mocks.Box import BoundingBox
     from Mocks.Level import Level
     level = Level()
-    box = BoundingBox(0, 0, 75 , 75)
-    yard_generator = YardGenerator(level, box)
+    box = BoundingBox(0, 0, 0, 75 , 0, 75)
+    surface = Surface(level, box)
+    yard_generator = YardGenerator(level, box, surface)
     yard_generator.generate_yards()
     surface = yard_generator.surface
     print(surface.door_blocks)
