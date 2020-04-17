@@ -11,6 +11,7 @@ if __name__ != "__main__":
 from Surface import Surface
 from RandUtils import lehmer_2, rand_range
 from Block import Block
+from Biomes import BlockUtils
 from copy import copy
 
 
@@ -129,6 +130,22 @@ class YardGenerator(object):
                 new_surface = self.generate_building_lots(new_surface, p)
                 new_surface = self.generate_building_door_blocks(new_surface, p)
                 new_surface = self.generate_door_blocks(new_surface, p)
+
+                # draw
+                if __name__ != "__main__":
+                    for i in range(p[0][0], p[1][0]):
+                        for j in range(p[0][1], p[1][1]):
+                            if self.surface.surface_map[i][j].type == Block.YARD \
+                                    and self.count_neighbours(i, j, p[0][0], p[1][0], p[0][1], p[1][1], Block.UNASSIGNED) > 1:
+                                utilityFunctions.setBlock(self.level, (85, 0), self.surface.to_real_x(i),
+                                                          self.surface.surface_map[i][j].height + 1,
+                                                          self.surface.to_real_z(j))
+                            if self.surface.surface_map[i][j].type == Block.YARD and self.surface.surface_map[i][j].is_water:
+                                utilityFunctions.setBlock(self.level,
+                                                          BlockUtils.get_bridge_block(self.surface.surface_map[i][j].biome_id),
+                                                          self.surface.to_real_x(i),
+                                                          self.surface.surface_map[i][j].height,
+                                                          self.surface.to_real_z(j))
         self.surface = new_surface
 
     def run_ca_on_partition(self, new_surface, partition):
@@ -167,14 +184,6 @@ class YardGenerator(object):
         print("do_ca")
         for _ in range(self.iter_num):
             new_surface = self.do_iteration_step(new_surface, x_start, x_end, z_start, z_end)
-
-        #draw
-        if __name__ != "__main__":
-            for i in range(x_start, x_end):
-                for j in range(z_start, z_end):
-                    if self.surface.surface_map[i][j].type == Block.YARD and self.count_neighbours(i,j, x_start,x_end,z_start,z_end,Block.UNASSIGNED) > 1:
-                        utilityFunctions.setBlock(self.level, (85, 0), self.surface.to_real_x(i), self.surface.surface_map[i][j].height+1, self.surface.to_real_z(j))
-
         return new_surface
 
     def do_iteration_step(self, new_surface, x_start, x_end, z_start, z_end):
