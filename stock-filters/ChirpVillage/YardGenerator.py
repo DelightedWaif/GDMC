@@ -137,7 +137,9 @@ class YardGenerator(object):
                         for j in range(p[0][1], p[1][1]):
                             if self.surface.surface_map[i][j].type == Block.YARD \
                                     and self.count_neighbours(i, j, p[0][0], p[1][0], p[0][1], p[1][1], Block.UNASSIGNED) > 1:
-                                utilityFunctions.setBlock(self.level, (85, 0), self.surface.to_real_x(i),
+                                utilityFunctions.setBlock(self.level,
+                                                          BlockUtils.get_fence_block(self.surface.surface_map[i][j].biome_id),
+                                                          self.surface.to_real_x(i),
                                                           self.surface.surface_map[i][j].height + 1,
                                                           self.surface.to_real_z(j))
                             if self.surface.surface_map[i][j].type == Block.YARD and self.surface.surface_map[i][j].is_water:
