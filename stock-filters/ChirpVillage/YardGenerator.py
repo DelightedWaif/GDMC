@@ -17,9 +17,9 @@ from copy import copy
 class YardGenerator(object):
 
     # CONSTANTS
-    MIN_YARD_SIZE = (14, 14)
+    MIN_YARD_SIZE = (16, 16)
     MAX_BUILDING_AREA = 100
-    MIN_BUILDING_AREA = 40
+    MIN_BUILDING_AREA = 50
 
     def __init__(self, level, box, surface):
         print("YardGenerator.__init__")
@@ -126,6 +126,9 @@ class YardGenerator(object):
             partition_prob = float((lehmer_2(lehmer_2(self.seed, p[1][0] - p[0][0]), p[1][1] - p[0][1])) % 100) / 100
             if partition_prob < probability_generate_yard:
                 new_surface = self.run_ca_on_partition(new_surface, p)
+                new_surface = self.generate_building_lots(new_surface, p)
+                new_surface = self.generate_building_door_blocks(new_surface, p)
+                new_surface = self.generate_door_blocks(new_surface, p)
         self.surface = new_surface
 
     def run_ca_on_partition(self, new_surface, partition):
@@ -164,7 +167,6 @@ class YardGenerator(object):
         print("do_ca")
         for _ in range(self.iter_num):
             new_surface = self.do_iteration_step(new_surface, x_start, x_end, z_start, z_end)
-        new_surface = self.do_post_processing(new_surface, x_start, x_end, z_start, z_end)
 
         #draw
         if __name__ != "__main__":
@@ -219,20 +221,7 @@ class YardGenerator(object):
                     count = count + 1
         return count
 
-    def do_post_processing(self, new_surface, x_start, x_end, z_start, z_end):
-        """
-        Run Post processing on the post CA new_surface within the partition
-        :params new_surface: a post CA Surface object to be modified and returned
-        :params x_start, x_end, z_start, z_end: the current partition bounds
-        :returns: a modified new_surface that has been modified post processor (buildings, building doors, and doors added)
-        """
-        print("do_post_processing")
-        new_surface = self.generate_buildings(new_surface, x_start, x_end, z_start, z_end)
-        new_surface = self.generate_building_door_blocks(new_surface, x_start, x_end, z_start, z_end)
-        new_surface = self.generate_door_blocks(new_surface, x_start, x_end, z_start, z_end)
-        return new_surface
-
-    def generate_buildings(self, new_surface, x_start, x_end, z_start, z_end):
+    def generate_building_lots(self, new_surface, partition):
         """
         Generate a single building lot within the yard within the given partition
         :params new_surface: a post CA Surface object to be modified and returned
@@ -241,6 +230,9 @@ class YardGenerator(object):
             (also fills the self.building_coords list with tuples of coords to the corners of the building)
         """
         print("generate_buildings")
+
+        x_start, x_end, z_start, z_end = self.get_partition_bounds(partition)
+
         # Random Growth Rate for the building lots
         growth_1 = rand_range(x_start, z_start, 2, 1)
         growth_2 = 3 - growth_1
@@ -259,7 +251,7 @@ class YardGenerator(object):
             corners = ((corners[0][0], corners[0][1]), (corners[1][0] + growth_2, corners[1][1] + growth_1))
         corners = ((corners[0][0], corners[0][1]), (corners[1][0] - growth_2, corners[1][1] - growth_1))
 
-        building_lot_area = (corners[1][0] - corners[0][0]) * (corners[1][1] - corners[0][1])
+        building_lot_area = abs(corners[1][0] - corners[0][0]) * abs(corners[1][1] - corners[0][1])
         if building_lot_area > YardGenerator.MIN_BUILDING_AREA:
             # if building lot of good size add to building coords and mark blocks in cells as buildings
             self.building_coords.append(corners)
@@ -292,7 +284,7 @@ class YardGenerator(object):
                 valid = valid and new_surface.surface_map[i][j].type == Block.YARD
         return valid
 
-    def generate_door_blocks(self, new_surface, x_start, x_end, z_start, z_end):
+    def generate_door_blocks(self, new_surface, partition):
         """
         Generate a single door block on the edge of the yard within the partition
         :params new_surface: a post CA Surface object to be modified and returned
@@ -301,6 +293,9 @@ class YardGenerator(object):
             (also fills the self.doors list with coords to the door block)
         """
         print("generate_door_blocks")
+
+        x_start, x_end, z_start, z_end = self.get_partition_bounds(partition)
+
         option = rand_range(x_start, z_start, 3, 0)  # pick one of four options for door placement
         curr = (x_end - ((x_end - x_start) / 2), (z_end - ((z_end - z_start) / 2)))  # set curr to center of yard
         if new_surface.surface_map[curr[0]][curr[1]].type == Block.UNASSIGNED:
@@ -335,7 +330,7 @@ class YardGenerator(object):
         new_surface.surface_map[curr[0]][curr[1]].type = Block.DOOR
         return new_surface
 
-    def generate_building_door_blocks(self, new_surface, x_start, x_end, z_start, z_end):
+    def generate_building_door_blocks(self, new_surface, partition):
         """
         Generate a single door block on the edge of the building lot
         :params new_surface: a post CA Surface object to be modified and returned
@@ -344,6 +339,9 @@ class YardGenerator(object):
             (also fills the self.building_doors list with coords to the door block)
         """
         print("generate_building_door_blocks")
+
+        x_start, x_end, z_start, z_end = self.get_partition_bounds(partition)
+
         option = rand_range(x_start, z_start, 3, 0)  # pick one of four options for door placement
         curr = (x_end - ((x_end - x_start) / 2), (z_end - ((z_end - z_start) / 2)))  # set curr to center of yard
         if new_surface.surface_map[curr[0]][curr[1]].type != Block.BUILDING:
@@ -381,6 +379,10 @@ class YardGenerator(object):
     def within_bounds(new_surface, curr):
         return 0 < curr[0] < len(new_surface.surface_map) and 0 < curr[1] < len(new_surface.surface_map[curr[0]])
 
+    @staticmethod
+    def get_partition_bounds(partition):
+        return partition[0][0], partition[1][0], partition[0][1], partition[1][1]
+
 
 if __name__ == "__main__":
     # MOCKS FOR TESTING ONLY
@@ -388,7 +390,7 @@ if __name__ == "__main__":
     from Mocks.Box import BoundingBox
 
     level = Level()
-    box = BoundingBox(25, 70, 25, 45, 80, 45)
+    box = BoundingBox(25, 70, 25, 225, 80, 225)
     surface = Surface(level, box)
     yard_generator = YardGenerator(level, box, surface)
     yard_generator.generate_yards()

@@ -47,14 +47,16 @@ def perform(level, box, options):
         print(rand)
         print(building_lot[0], building_lot[1])
         print(door)
-        if rand < 25:
+        if rand < 20:
             building = Builder.BasicBuilding()
-        elif rand < 50:
+        elif rand < 40:
             building = Builder.MultiStoryBuilding()
-        elif rand < 75:
+        elif rand < 60:
             building = Builder.LinearFarmLot()
-        else:
+        elif rand < 80:
             building = Builder.DecoratedBuilding()
+        else:
+            building = Builder.Church()
         building.construct(level, (building_lot[0], building_lot[1]), (door[0], door[1]), surface)
 
 

@@ -1,17 +1,20 @@
 import utilityFunctions
 import RandUtils
 from Biomes import BlockUtils
-from BlockTypes import blocks
+from Biomes.BlockTypes import blocks
 from Surface import surface_blocks
 
 
 """Utils for buildings"""
 
+
 def get_coords(coords): 
     return coords[0][0], coords[0][1], coords[0][2], coords[1][0], coords[1][1]
 
+
 def shrink_building_lot(coords, height):
     return ((coords[0][0]+1, coords[0][1]+1, height), (coords[1][0]-1, coords[1][1]-1))
+
 
 def construct_walls(level, coords, biome, height):
     minx, minz, miny, maxx, maxz = get_coords(coords)
@@ -28,6 +31,7 @@ def construct_walls(level, coords, biome, height):
                     utilityFunctions.setBlock(
                         level, wall_block, x, y, z)
 
+
 def construct_floor_and_flat_roof(level, coords, biome, height):
     minx, minz, miny, maxx, maxz = get_coords(coords)
     roof_block = BlockUtils.get_roof_block(biome)
@@ -41,15 +45,27 @@ def construct_floor_and_flat_roof(level, coords, biome, height):
             utilityFunctions.setBlock(
                 level, floor_block, x, miny, z)
 
+
 def construct_pointed_roof(level, coords, biome, height):
     minx, minz, miny, maxx, maxz = get_coords(coords)
     roof_block = BlockUtils.get_roof_block(biome)
-    for i in range(-1, maxx-minx/4):
+    for i in range(-1, abs(maxx-minx)/4):
         for x in range(minx+i, maxx-i):
             for z in range(minz+i, maxz-i):
                 utilityFunctions.setBlock(
                     level, roof_block, x, height+i, z)
-                
+
+
+def construct_vaulted_roof(level, coords, biome, height):
+    minx, minz, miny, maxx, maxz = get_coords(coords)
+    roof_block = BlockUtils.get_roof_block(biome)
+    for i in range(-1, abs(maxx - minx) / 3):
+        for x in range(minx, maxx):
+            for z in range(minz + i, maxz - i):
+                utilityFunctions.setBlock(
+                    level, roof_block, x, height + i, z)
+
+
 def construct_pillars(level, coords, biome, height):
     minx, minz, miny, maxx, maxz = get_coords(coords)
     pillar_block = BlockUtils.get_beam_block(biome)
@@ -60,7 +76,8 @@ def construct_pillars(level, coords, biome, height):
                 if block in surface_blocks or block == 9:
                     utilityFunctions.setBlock(                
                         level, pillar_block, x, y, z)
-                
+
+
 def place_door(level, coords, biome, door_coords):
     minx, minz, miny, maxx, maxz = get_coords(coords)
     door_block = BlockUtils.get_door_block(biome)
@@ -373,4 +390,34 @@ class LinearFarmLot():
         level_coords = ((minx, minz, miny),(maxx, maxz, pillar_height))
         remove_blocks_in_box(level, level_coords)
         construct_farm(level, level_coords, biome)
+
+
+class Church():
+    def construct(self, level, coords, door_coords, surface):
+        minx = surface.to_real_x(coords[0][0])
+        minz = surface.to_real_z(coords[0][1])
+        maxx = surface.to_real_x(coords[1][0])
+        maxz = surface.to_real_z(coords[1][1])
+        block = surface.surface_map[coords[0][0]][coords[0][1]]
+        miny = block.height
+        biome = block.biome_id
+        height_offset = RandUtils.rand_range(minx, miny, 10, 5)
+        pillar_height = miny + height_offset
+        level_coords = ((minx, minz, miny), (maxx, maxz, pillar_height))
+        remove_blocks_in_box(level, level_coords)
+        construct_pillars(level, level_coords, biome, pillar_height)
+        construct_walls(level, level_coords, biome, pillar_height)
+        construct_floor_and_flat_roof(level, level_coords, biome, pillar_height)
+        construct_vaulted_roof(level, level_coords, biome, pillar_height)
+        place_door(level, level_coords, biome, door_coords)
+        place_windows(level, level_coords, biome, height_offset)
+
+        level_coords = ((minx+1, minz+1, pillar_height), (maxx-(abs(minx-maxx)/2), maxz-1, pillar_height + height_offset))
+        pillar_height = pillar_height + height_offset
+
+        construct_pillars(level, level_coords, biome, pillar_height)
+        construct_walls(level, level_coords, biome, pillar_height)
+        construct_floor_and_flat_roof(level, level_coords, biome, pillar_height)
+        construct_vaulted_roof(level, level_coords, biome, pillar_height)
+        place_windows(level, level_coords, biome, height_offset)
 
