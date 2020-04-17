@@ -95,7 +95,7 @@ class PathGenerator:
             for edge in path_edges:
                 edge_block = self.surface.surface_map[edge[0]][edge[1]]
                 edge_block.type = Block.PATH
-                # edge_block.height = new_height
+                edge_block.height = new_height
 
                 # Set path block in level
                 level_block = BlockUtils.get_road_block(edge_block.biome_id)
