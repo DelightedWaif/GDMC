@@ -74,20 +74,24 @@ class PathGenerator:
             block = self.surface.surface_map[x][z]
             previous_block = self.surface.surface_map[prev[0]][prev[1]]
             block.type = Block.PATH
-            if previous_block.height - block.height > 1:
-                block.height = self.surface.surface_map[prev[0]][prev[1]].height - 1
-                new_height = self.surface.surface_map[prev[0]][prev[1]].height - 1
+            steepness = previous_block.height - block.height
+            if steepness > 1:
+                if steepness > 4:
+                    block.height = self.surface.surface_map[prev[0]][prev[1]].height
+                    new_height = self.surface.surface_map[prev[0]][prev[1]].height
+                else:
+                    block.height = self.surface.surface_map[prev[0]][prev[1]].height - 1
+                    new_height = self.surface.surface_map[prev[0]][prev[1]].height - 1
             elif previous_block.height - block.height < -1:
                 block.height = self.surface.surface_map[prev[0]][prev[1]].height + 1
                 new_height = self.surface.surface_map[prev[0]][prev[1]].height + 1
             else:
                 new_height = block.height
             # # If path his moving horiziontally, try to widen it by adding blocks above and below it
-            if (direction == (-1,0) or direction == (1,0)):
+            if direction == (-1,0) or direction == (1,0):
                 path_edges = [(x, z-1), (x, z+1)]
             # If path his moving vertically, try to widen it by adding blocks to the left and to the right of it
             else:
-            # elif (direction == (0,-1) or direction == (0,1)):
                 path_edges = [(x-1, z), (x+1, z)]
             # path_edges = [(x, z-1), (x, z+1), (x-1, z), (x+1, z)]
             path_edges = filter(self.block_in_grid, path_edges)
@@ -117,12 +121,11 @@ class PathGenerator:
                 utilityFunctions.setBlock(self.level, bridge_block, self.surface.to_real_x(block.x), new_height, self.surface.to_real_z(block.z))
             else:
                 utilityFunctions.setBlock(self.level, level_block, self.surface.to_real_x(block.x), new_height, self.surface.to_real_z(block.z))
-            above = block.height + 1  # remove after
+            above = new_height + 1
             # Remove all blocks above paths
             while self.level.blockAt(self.surface.to_real_x(x), above, self.surface.to_real_z(z)) != 0:
                 utilityFunctions.setBlock(self.level, (0, 0), self.surface.to_real_x(block.x), above, self.surface.to_real_z(block.z))
                 above += 1
-
             prev = current
             current = self.add(current, path[current])
             direction = path[current]
