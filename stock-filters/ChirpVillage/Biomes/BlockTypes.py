@@ -38,6 +38,7 @@ blocks = {
     'Chest': (54, 4),
     'Crafting Table': (58, 0),
     "Wheat": (59, 0),
+    'Farmland': (60, 0),
     'Furnace': (61, 4),
     'Oak Door Block': (64, 0),
     'Ladder': (65, 2),
