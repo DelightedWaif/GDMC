@@ -24,18 +24,15 @@ inputs = (
 def perform(level, box, options):
     print("RUNNING CHIRP VILLAGE GENERATOR!! ")
     # Yard Generation
-    print("Surface")
     surface = Surface(level, box)
-    print("Yard Generator")
     yard_generator = YardGenerator(level, box, surface)
-    print("generate yards")
     yard_generator.generate_yards()
-    print("getting Surface")
     surface = yard_generator.surface
 
-    surface.visualize_yards()
-    surface.visualize_heights()
-    surface.visualize_steepness()
+    # Uncomment for surface visualization
+    # surface.visualize_yards()
+    # surface.visualize_heights()
+    # surface.visualize_steepness()
 
     # Path Generation
     path_generator = PathGenerator(surface, level)
@@ -55,18 +52,3 @@ def perform(level, box, options):
         else:
             building = Builder.Church()
         building.construct(level, (building_lot[0], building_lot[1]), (door[0], door[1]), surface)
-
-
-# This is a slightly modified version of a schematic reader function found at:
-# http://www.brightmoore.net/mcedit-filters-1/blockschematicswapper
-def build_from_schematic(x, y, z, filename, level, box, options):
-    schematic = MCSchematic(filename=filename)
-    width = schematic.Width
-    depth = schematic.Length
-    height = schematic.Height
-    w_offset = width >> 1
-    z_offset = depth >> 1
-    cursorPosn = (x - w_offset, y, z - z_offset)  # set cursor to middle of scematic
-    blocksIDs = range(level.materials.id_limit)
-    level.copyBlocksFrom(schematic, BoundingBox(
-        (0, 0, 0), (width, height, depth)), cursorPosn, blocksToCopy=blocksIDs)

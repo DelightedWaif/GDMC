@@ -139,7 +139,6 @@ if __name__ == "__main__":
     yard_generator = YardGenerator(level, box, surface)
     yard_generator.generate_yards()
     surface = yard_generator.surface
-    print(surface.door_blocks)
     path_generator = PathGenerator(surface, level)
     path_generator.generate_paths()
     surface.visualize()

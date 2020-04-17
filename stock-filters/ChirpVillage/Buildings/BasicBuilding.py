@@ -29,7 +29,7 @@ class BasicBuilding():
                             level, (0, 0), x, y, z)
                     # add door
                     elif x == box.minx and z == round(box.maxz / 2) and y == box.miny:
-                        print("doing door")
+                        #print("doing door")
                         utilityFunctions.setBlock(
                             level, (64, 0), x, y, z)
 

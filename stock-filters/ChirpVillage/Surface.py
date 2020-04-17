@@ -15,7 +15,6 @@ from copy import copy
 class Surface(object):
 
     def __init__(self, level, box):
-        print("surface.__init__")
         self.x_start = box.minx
         self.y_start = box.miny
         self.z_start = box.minz
@@ -56,10 +55,8 @@ class Surface(object):
                 block = self.surface_map[i][j]
                 block_type = level.blockAt(self.to_real_x(i), block.height, self.to_real_z(j))
                 if block_type in water_blocks:
-                    print("Found Water")
                     block.is_water = True
                 elif block_type in lava_blocks:
-                    print("Found Lava")
                     block.is_lava = True
                 new_surface_map[i][j] = block
         return new_surface_map
@@ -71,7 +68,6 @@ class Surface(object):
             finding the difference between the curr block and the average
         :return: new_surface_map filled with calculated steepness data
         """
-        print("calc_steepness")
         new_surface_map = copy(self.surface_map)
         directions = [(0, 0), (1, 0), (1, 1), (-1, 0), (0, 1), (0, -1), (-1, -1), (-1, 1), (1, -1)]
         for i in range(self.x_length):
@@ -96,7 +92,6 @@ class Surface(object):
         :param level: level object which stores the worlds blocks and block data
         :return: initialized surface_map filled with correct data from level
         """
-        print("init_surface_map")
         surface_map = []
         for i in range(self.x_length):
             row = []
